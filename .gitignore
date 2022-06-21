@@ -1,0 +1,5 @@
+# Project exclude paths
+/.gradle/
+/MusicFlip/build/
+/MusicFlip/build/intermediates/javac/debug/classes/
+/BUILD
