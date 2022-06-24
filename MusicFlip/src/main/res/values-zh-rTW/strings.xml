@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="collection_button">文件</string>
+    <string name="view_button">檢視</string>
+    <string name="setting_button">設定</string>
+    <string name="empty_info">按文件按鈕來加入或打開文件</string>
+</resources>

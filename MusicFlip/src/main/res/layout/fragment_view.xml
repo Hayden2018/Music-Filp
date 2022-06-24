@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:keepScreenOn="true"
     tools:context=".ViewFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <ImageSwitcher
+        android:id="@+id/docu_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:src="@tools:sample/avatars" />
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/page_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:paddingVertical="12sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/blank_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0"
+        app:srcCompat="@drawable/ic_collections" />
+
+    <TextView
+        android:id="@+id/blank_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="center_horizontal"
+        android:textSize="15sp"
+        android:paddingVertical="10sp"
+        android:fontFamily="sans-serif"
+        android:text="@string/empty_info" />
+
+</LinearLayout>
