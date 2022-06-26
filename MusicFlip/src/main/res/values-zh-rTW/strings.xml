@@ -4,4 +4,12 @@
     <string name="view_button">檢視</string>
     <string name="setting_button">設定</string>
     <string name="empty_info">按文件按鈕來加入或打開文件</string>
+    <string name="cancel">取消</string>
+    <string name="Remove">移除</string>
+    <string name="confirm_delete">確定移除以下文件?</string>
+    <string name="remove_item">移除文件</string>
+    <string name="rename_item">重新命名</string>
+    <string name="rename_hint">新文件</string>
+    <string name="please_rename">請輸入新文件名</string>
+    <string name="confirm">確認</string>
 </resources>

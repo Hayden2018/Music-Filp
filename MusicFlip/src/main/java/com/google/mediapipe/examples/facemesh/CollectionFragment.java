@@ -1,5 +1,6 @@
 package com.google.mediapipe.examples.facemesh;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,10 +81,17 @@ public class CollectionFragment extends Fragment {
         FloatingActionButton addButton = getView().findViewById(R.id.add_doc);
         addButton.setOnClickListener((View v) -> getContent.launch("application/pdf"));
 
+        renderItems();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void renderItems() {
+
         String[] files = activity.fileList();
         files = Arrays.stream(files).filter(f -> Files.getFileExtension(f).equals("pdf")).toArray(String[]::new);
 
         LinearLayout verticalLayout = getView().findViewById(R.id.collection_vertical);
+        verticalLayout.removeAllViews();
 
         for (int i = 0; i < files.length; i = i + 2) {
             LinearLayout row = (LinearLayout) getLayoutInflater().inflate(R.layout.card_row, verticalLayout, false);
@@ -100,6 +109,10 @@ public class CollectionFragment extends Fragment {
                 File f = new File(activity.getFilesDir(), leftFile);
                 activity.openAndView(Uri.fromFile(f));
             });
+            leftCard.setOnLongClickListener(v -> {
+                createActionMenu(leftFile).show();
+                return true;
+            });
 
             if (i + 1 < files.length) {
                 TextView rightText = rightCard.findViewById(R.id.card_txt);
@@ -113,6 +126,10 @@ public class CollectionFragment extends Fragment {
                     File f = new File(activity.getFilesDir(), rightFile);
                     activity.openAndView(Uri.fromFile(f));
                 });
+                rightCard.setOnLongClickListener(v -> {
+                    createActionMenu(rightFile).show();
+                    return true;
+                });
             }
             else {
                 rightCard.setVisibility(View.INVISIBLE);
@@ -121,6 +138,51 @@ public class CollectionFragment extends Fragment {
             row.addView(rightCard);
             verticalLayout.addView(row);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private AlertDialog createActionMenu(final String fileName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setItems(R.array.file_menu, (dialog, choice) -> {
+            if (choice == 0) createRenameDialog(fileName).show();
+            if (choice == 1) createDeleteDialog(fileName).show();
+        });
+        return builder.create();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private AlertDialog createRenameDialog(final String fileName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage(R.string.please_rename)
+                .setView(R.layout.dialog_rename)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.confirm, (dialog, id) -> {
+                    EditText edit = ((AlertDialog) dialog).findViewById(R.id.file_rename);
+                    String newName = edit.getText().toString() + ".pdf";
+                    File source = new File(activity.getFilesDir(), fileName);
+                    File target = new File(activity.getFilesDir(), newName);
+                    source.renameTo(target);
+                    renderItems();
+                });
+        return builder.create();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private AlertDialog createDeleteDialog(final String fileName) {
+
+        View itemName = getLayoutInflater().inflate(R.layout.dialog_delete, null);
+        ((TextView) itemName.findViewById(R.id.to_delete)).setText(fileName);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage(R.string.confirm_delete)
+                .setView(itemName)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.Remove, (dialog, id) -> {
+                    File f = new File(activity.getFilesDir(), fileName);
+                    f.delete();
+                    renderItems();
+                });
+        return builder.create();
     }
 
     private Bitmap getPDFPreview(String fileName) {
