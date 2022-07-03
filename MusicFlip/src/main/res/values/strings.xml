@@ -8,7 +8,7 @@
     <string name="empty_info">Click collections to add or open a document</string>
     <string name="cancel">Cancel</string>
     <string name="Remove">Remove</string>
-    <string name="confirm_delete">Please confirm removal</string>
+    <string name="confirm_delete">Are you sure to remove?</string>
     <string name="remove_item">Remove Document</string>
     <string name="rename_item">Rename Document</string>
     <string name="rename_hint">New File Name</string>
