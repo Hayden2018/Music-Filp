@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.io.Files;
 
@@ -74,6 +75,7 @@ public class CollectionFragment extends Fragment {
         ActivityResultLauncher<String> getContent = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
             (Uri uri) -> {
+                if (uri == null) return;
                 saveFile(uri);
                 activity.openAndView(uri);
             }
@@ -90,53 +92,30 @@ public class CollectionFragment extends Fragment {
         String[] files = activity.fileList();
         files = Arrays.stream(files).filter(f -> Files.getFileExtension(f).equals("pdf")).toArray(String[]::new);
 
-        LinearLayout verticalLayout = getView().findViewById(R.id.collection_vertical);
-        verticalLayout.removeAllViews();
+        FlexboxLayout flexboxLayout = (FlexboxLayout) getView().findViewById(R.id.collection);
+        flexboxLayout.removeAllViews();
 
-        for (int i = 0; i < files.length; i = i + 2) {
-            LinearLayout row = (LinearLayout) getLayoutInflater().inflate(R.layout.card_row, verticalLayout, false);
-            CardView leftCard = (CardView) getLayoutInflater().inflate(R.layout.card_container, row, false);
-            CardView rightCard = (CardView) getLayoutInflater().inflate(R.layout.card_container, row, false);
+        for (int i = 0; i < files.length; i++) {
 
-            TextView leftText = leftCard.findViewById(R.id.card_txt);
-            ImageView leftImage = leftCard.findViewById(R.id.card_img);
-            Bitmap leftPreview = getPDFPreview(files[i]);
-            leftText.setText(Files.getNameWithoutExtension(files[i]));
-            leftImage.setImageBitmap(leftPreview);
+            CardView card = (CardView) getLayoutInflater().inflate(R.layout.card_container, flexboxLayout, false);
 
-            final String leftFile = files[i];
-            leftCard.setOnClickListener(v -> {
-                File f = new File(activity.getFilesDir(), leftFile);
+            TextView cardText = card.findViewById(R.id.card_txt);
+            ImageView cardImg = card.findViewById(R.id.card_img);
+            Bitmap preview = getPDFPreview(files[i]);
+            cardText.setText(Files.getNameWithoutExtension(files[i]));
+            cardImg.setImageBitmap(preview);
+
+            final String file = files[i];
+            card.setOnClickListener(v -> {
+                File f = new File(activity.getFilesDir(), file);
                 activity.openAndView(Uri.fromFile(f));
             });
-            leftCard.setOnLongClickListener(v -> {
-                createActionMenu(leftFile).show();
+            card.setOnLongClickListener(v -> {
+                createActionMenu(file).show();
                 return true;
             });
 
-            if (i + 1 < files.length) {
-                TextView rightText = rightCard.findViewById(R.id.card_txt);
-                ImageView rightImage = rightCard.findViewById(R.id.card_img);
-                Bitmap rightPreview = getPDFPreview(files[i + 1]);
-                rightText.setText(Files.getNameWithoutExtension(files[i + 1]));
-                rightImage.setImageBitmap(rightPreview);
-
-                final String rightFile = files[i + 1];
-                rightCard.setOnClickListener(v -> {
-                    File f = new File(activity.getFilesDir(), rightFile);
-                    activity.openAndView(Uri.fromFile(f));
-                });
-                rightCard.setOnLongClickListener(v -> {
-                    createActionMenu(rightFile).show();
-                    return true;
-                });
-            }
-            else {
-                rightCard.setVisibility(View.INVISIBLE);
-            }
-            row.addView(leftCard);
-            row.addView(rightCard);
-            verticalLayout.addView(row);
+            flexboxLayout.addView(card);
         }
     }
 
