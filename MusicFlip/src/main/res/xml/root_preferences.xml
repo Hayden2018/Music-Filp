@@ -1,0 +1,60 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/functionalities_header">
+        <SeekBarPreference
+            android:max="100"
+            app:key="blink_sensitivity_preference"
+            app:showSeekBarValue="true"
+            app:title="@string/blink_sensitivity_title" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="detect_head_shake_preference"
+            app:title="@string/detect_head_shaking_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/general_header">
+        <!-- TODO: add summary -->
+        <ListPreference
+            android:entries="@array/language_array"
+            android:entryValues="@array/language_array"
+            android:key="language_preference"
+            android:title="@string/language_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:entries="@array/orientation_array"
+            android:entryValues="@array/orientation_array"
+            android:key="orientation_preference"
+            android:title="@string/orientation_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:entries="@array/theme_array"
+            android:entryValues="@array/theme_array"
+            android:key="theme_preference"
+            android:title="@string/theme_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="notification_preference"
+            app:title="@string/notification_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/app_header">
+        <Preference
+            android:key="help_preference"
+            app:title="@string/help_title" />
+
+        <Preference
+            android:key="share_preference"
+            app:title="@string/share_title" />
+
+        <Preference
+            android:key="about_app"
+            app:title="@string/about_app_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
