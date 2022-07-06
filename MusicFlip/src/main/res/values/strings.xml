@@ -15,4 +15,25 @@
     <string name="please_rename">Please input new file name</string>
     <string name="confirm">Confirm</string>
 
+    <!-- Preference Titles -->
+    <string name="functionalities_header">Functionalities</string>
+    <string name="general_header">General</string>
+    <string name="app_header">App</string>
+    <string name="blink_sensitivity_title">Blink Sensitivity</string>
+    <string name="detect_head_shaking_title">Detect Head Shaking</string>
+    <string name="language_title">Language</string>
+    <string name="orientation_title">Orientation</string>
+    <string name="theme_title">Theme</string>
+    <string name="notification_title">Notification</string>
+    <string name="help_title">Get Help</string>
+    <string name="share_title">Share with Friends</string>
+    <string name="about_app_title">About this App</string>
+    <string name="english">English</string>
+    <string name="cantonese">Cantonese</string>
+    <string name="auto">Auto</string>
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
 </resources>

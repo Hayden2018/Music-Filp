@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
   public ViewFragment viewFragment;
   public CollectionFragment collectionFragment = CollectionFragment.newInstance();
-  public SettingFragment settingFragment = SettingFragment.newInstance("", "");
+  public SettingsFragment settingFragment = SettingsFragment.newInstance("", "");
 
   private BottomNavigationView bottomNavigationView;
 
