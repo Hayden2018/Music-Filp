@@ -20,7 +20,6 @@
     <string name="blink_sensitivity_title">眨眼感應靈敏度</string>
     <string name="detect_head_shaking_title">探測搖頭</string>
     <string name="language_title">語言</string>
-    <string name="orientation_title">螢幕方向</string>
     <string name="theme_title">主題</string>
     <string name="notification_title">通知</string>
     <string name="help_title">幫助</string>
@@ -28,9 +27,6 @@
     <string name="about_app_title">關於應用程式</string>
     <string name="english">英文</string>
     <string name="cantonese">中文</string>
-    <string name="auto">自動</string>
-    <string name="portrait">直向</string>
-    <string name="landscape">橫向</string>
     <string name="theme_light">白天模式</string>
     <string name="theme_dark">夜晚模式</string>
 </resources>

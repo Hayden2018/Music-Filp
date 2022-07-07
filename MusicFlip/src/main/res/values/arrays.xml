@@ -9,12 +9,6 @@
         <item>@string/cantonese</item>
         <item>@string/english</item>
     </string-array>
-    <!-- Settings: Orientation -->
-    <string-array name="orientation_array">
-        <item>@string/auto</item>
-        <item>@string/portrait</item>
-        <item>@string/landscape</item>
-    </string-array>
     <!-- Settings: Theme -->
     <string-array name="theme_array">
         <item>@string/theme_light</item>

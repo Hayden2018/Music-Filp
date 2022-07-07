@@ -24,13 +24,6 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            android:entries="@array/orientation_array"
-            android:entryValues="@array/orientation_array"
-            android:key="orientation_preference"
-            android:title="@string/orientation_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
             android:entries="@array/theme_array"
             android:entryValues="@array/theme_array"
             android:key="theme_preference"
