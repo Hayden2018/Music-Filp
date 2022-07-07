@@ -2,6 +2,7 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
@@ -21,12 +22,12 @@ import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -95,9 +96,17 @@ public class CollectionFragment extends Fragment {
         FlexboxLayout flexboxLayout = (FlexboxLayout) getView().findViewById(R.id.collection);
         flexboxLayout.removeAllViews();
 
+        Resources resource = activity.getResources();
+        int screenWidth = resource.getConfiguration().screenWidthDp;
+        int cardPerRow = screenWidth / 195;
+        int marginLeft = (int) ((screenWidth - cardPerRow * 195f) / (float) (cardPerRow + 1));
+        int marginLeftPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, marginLeft, resource.getDisplayMetrics());
+
         for (int i = 0; i < files.length; i++) {
 
             CardView card = (CardView) getLayoutInflater().inflate(R.layout.card_container, flexboxLayout, false);
+            FlexboxLayout.LayoutParams params = (FlexboxLayout.LayoutParams) card.getLayoutParams();
+            params.setMargins(marginLeftPx, 0, 0, 0);
 
             TextView cardText = card.findViewById(R.id.card_txt);
             ImageView cardImg = card.findViewById(R.id.card_img);
