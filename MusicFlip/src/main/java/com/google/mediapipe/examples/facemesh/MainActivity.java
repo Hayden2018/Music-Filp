@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.settings_button:
                 current = Current.SETTING;
                 setTitle(getString(R.string.setting_title));
-                transaction.replace(R.id.fragment, settingFragment).commit();
+                transaction.replace(R.id.fragment, settingFragment).addToBackStack(null).commit();
                 return true;
         }
         return false;
