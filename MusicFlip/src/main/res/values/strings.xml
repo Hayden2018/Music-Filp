@@ -15,7 +15,7 @@
     <string name="please_rename">Please input new file name</string>
     <string name="confirm">Confirm</string>
 
-    <!-- Preference Titles -->
+    <!-- Preference -->
     <string name="functionalities_header">Functionalities</string>
     <string name="general_header">General</string>
     <string name="app_header">App</string>
@@ -24,12 +24,15 @@
     <string name="language_title">Language</string>
     <string name="theme_title">Theme</string>
     <string name="notification_title">Notification</string>
-    <string name="help_title">Get Help</string>
+    <string name="get_help_title">Get Help</string>
     <string name="share_title">Share with Friends</string>
     <string name="about_app_title">About this App</string>
     <string name="english">English</string>
     <string name="cantonese">中文</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="about_app_content">This app helps you flip the pages of your sheet music by simply winking your eye or shaking your head (have to be turned on in settings). You do not need to flip the pages by hand anymore!</string>
+    <string name="get_help_content"><![CDATA[<u>Winking:</u><br>Flip to next page: wink your right eye<br>Flip to previous page: wink your left eye<br><br><u>Head Shaking:</u><br>Flip to next page: shake to the right<br>Flip to previous page: shake to the left]]></string>
+    <string name="share_content">This is a fantastic app that could help you flip your music sheet easily during your performance by simply winking your eye or shaking your head! Download and try the Music Flip App for free: https://www.google.com </string>
 
 </resources>

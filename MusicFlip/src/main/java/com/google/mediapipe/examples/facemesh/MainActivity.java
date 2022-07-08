@@ -14,12 +14,14 @@
 
 package com.google.mediapipe.examples.facemesh;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
   private boolean detectionEnable = true;
   private boolean blinkEnable = true;
   private boolean shakeEnable = false;
+
+  private static final int DEFAULT_BLINK_SENSITIVITY = 80;
+  private int blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
 
   protected long coolDown = System.currentTimeMillis();
 
@@ -88,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     setupLiveDemoUiComponents();
+
+    loadSettings();
 
     bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -250,4 +257,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     if (dz < -0.12) return Shake.LEFT;
     return Shake.NONE;
   }
+
+  private void loadSettings(){
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    shakeEnable = sharedPreferences.getBoolean("detect_head_shake_preference", false);
+    blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY);
+  }
+
+
 }

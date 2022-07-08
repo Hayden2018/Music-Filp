@@ -22,11 +22,15 @@
     <string name="language_title">語言</string>
     <string name="theme_title">主題</string>
     <string name="notification_title">通知</string>
-    <string name="help_title">幫助</string>
+    <string name="get_help_title">幫助</string>
     <string name="share_title">分享</string>
     <string name="about_app_title">關於應用程式</string>
     <string name="english">英文</string>
     <string name="cantonese">中文</string>
     <string name="theme_light">白天模式</string>
     <string name="theme_dark">夜晚模式</string>
+    <string name="about_app_content">本應用程式幫助你在演奏期間輕鬆將樂譜翻頁﹐你只需要做出單眼動作或搖頭動作(需在設定中開啟此功能)就可以免去手動翻樂譜的麻煩﹐讓本應用程式自動為你翻去上(下)一頁！</string>
+    <string name="get_help_content"><![CDATA[<u>眨眼：</u><br>下一頁：眨右眼<br>上一頁：眨左眼<br><br><u>搖頭：</u><br>下一頁：搖向右邊<br>上一頁：搖向左邊]]></string>
+    <string name="share_content">一起來用這個可以幫助你在演奏中僅用眨眼或搖頭就可以輕鬆翻頁的應用程式吧！你可以在以下網址中下載 Music Flip：https://www.google.com </string>
+
 </resources>

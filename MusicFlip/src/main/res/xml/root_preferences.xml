@@ -38,15 +38,15 @@
 
     <PreferenceCategory app:title="@string/app_header">
         <Preference
-            android:key="help_preference"
-            app:title="@string/help_title" />
+            android:key="get_help_preference"
+            app:title="@string/get_help_title" />
 
         <Preference
             android:key="share_preference"
             app:title="@string/share_title" />
 
         <Preference
-            android:key="about_app"
+            android:key="about_app_preference"
             app:title="@string/about_app_title" />
     </PreferenceCategory>
 
