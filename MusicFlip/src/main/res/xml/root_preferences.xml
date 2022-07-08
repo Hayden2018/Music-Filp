@@ -21,19 +21,22 @@
             android:entryValues="@array/language_array"
             android:key="language_preference"
             android:title="@string/language_title"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_language"/>
 
         <ListPreference
             android:entries="@array/theme_array"
             android:entryValues="@array/theme_array"
             android:key="theme_preference"
             android:title="@string/theme_title"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_theme"/>
 
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="notification_preference"
-            app:title="@string/notification_title" />
+            app:title="@string/notification_title"
+            app:icon="@drawable/ic_notification"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/app_header">
