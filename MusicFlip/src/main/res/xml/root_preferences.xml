@@ -39,15 +39,18 @@
     <PreferenceCategory app:title="@string/app_header">
         <Preference
             android:key="get_help_preference"
-            app:title="@string/get_help_title" />
+            app:title="@string/get_help_title"
+            app:icon="@drawable/ic_get_help" />
 
         <Preference
             android:key="share_preference"
-            app:title="@string/share_title" />
+            app:title="@string/share_title"
+            app:icon="@drawable/ic_share" />
 
         <Preference
             android:key="about_app_preference"
-            app:title="@string/about_app_title" />
+            app:title="@string/about_app_title"
+            app:icon="@drawable/ic_about_app"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

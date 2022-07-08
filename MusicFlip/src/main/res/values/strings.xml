@@ -20,8 +20,8 @@
 
     <!-- Preference -->
     <string name="functionalities_header">Functionalities</string>
-    <string name="general_header">General</string>
-    <string name="app_header">App</string>
+    <string name="general_header">General Settings</string>
+    <string name="app_header">Application</string>
     <string name="blink_sensitivity_title">Blink Sensitivity</string>
     <string name="detect_head_shaking_title">Detect Head Shaking</string>
     <string name="language_title">Language</string>
