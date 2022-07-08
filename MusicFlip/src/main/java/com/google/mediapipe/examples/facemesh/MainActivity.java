@@ -112,16 +112,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     switch (item.getItemId()) {
       case R.id.collections_button:
         current = Current.COLLECTION;
+        setTitle(getString(R.string.collections_title));
         transaction.replace(R.id.fragment, collectionFragment).commit();
         return true;
 
       case R.id.view_button:
         current = Current.VIEW;
+        setTitle(getString(R.string.view_title));
         transaction.replace(R.id.fragment, viewFragment).commit();
         return true;
 
       case R.id.settings_button:
         current = Current.SETTING;
+        setTitle(getString(R.string.setting_title));
         transaction.replace(R.id.fragment, settingFragment).commit();
         return true;
     }

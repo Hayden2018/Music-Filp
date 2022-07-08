@@ -12,6 +12,9 @@
     <string name="rename_hint">新文件</string>
     <string name="please_rename">請輸入新文件名</string>
     <string name="confirm">確認</string>
+    <string name="collections_title">文件</string>
+    <string name="view_title">Music Flip</string>
+    <string name="setting_title">設定</string>
 
     <!-- Preference Titles -->
     <string name="functionalities_header">功能設定</string>
@@ -25,7 +28,7 @@
     <string name="get_help_title">幫助</string>
     <string name="share_title">分享</string>
     <string name="about_app_title">關於應用程式</string>
-    <string name="english">英文</string>
+    <string name="english">English</string>
     <string name="cantonese">中文</string>
     <string name="theme_light">白天模式</string>
     <string name="theme_dark">夜晚模式</string>

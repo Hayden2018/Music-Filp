@@ -14,6 +14,9 @@
     <string name="rename_hint">New File Name</string>
     <string name="please_rename">Please input new file name</string>
     <string name="confirm">Confirm</string>
+    <string name="collections_title">Collections</string>
+    <string name="view_title">Music Flip</string>
+    <string name="setting_title">Settings</string>
 
     <!-- Preference -->
     <string name="functionalities_header">Functionalities</string>
