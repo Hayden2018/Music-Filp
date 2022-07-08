@@ -72,11 +72,11 @@ public class CollectionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ActivityResultLauncher<String> getContent = registerForActivityResult(
-            new ActivityResultContracts.GetContent(),
-            (Uri uri) -> {
-                saveFile(uri);
-                activity.openAndView(uri);
-            }
+                new ActivityResultContracts.GetContent(),
+                (Uri uri) -> {
+                    saveFile(uri);
+                    activity.openAndView(uri);
+                }
         );
         FloatingActionButton addButton = getView().findViewById(R.id.add_doc);
         addButton.setOnClickListener((View v) -> getContent.launch("application/pdf"));
@@ -130,8 +130,7 @@ public class CollectionFragment extends Fragment {
                     createActionMenu(rightFile).show();
                     return true;
                 });
-            }
-            else {
+            } else {
                 rightCard.setVisibility(View.INVISIBLE);
             }
             row.addView(leftCard);
@@ -215,8 +214,7 @@ public class CollectionFragment extends Fragment {
             FileOutputStream destination = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
             FileInputStream source = (FileInputStream) activity.getContentResolver().openInputStream(uri);
             FileUtils.copy(source, destination);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("IO", e.getMessage());
         }
     }

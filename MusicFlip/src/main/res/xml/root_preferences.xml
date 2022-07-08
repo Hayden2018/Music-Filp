@@ -4,6 +4,7 @@
     <PreferenceCategory app:title="@string/functionalities_header">
         <SeekBarPreference
             android:max="100"
+            app:defaultValue="80"
             app:key="blink_sensitivity_preference"
             app:showSeekBarValue="true"
             app:title="@string/blink_sensitivity_title" />
@@ -21,39 +22,39 @@
             android:entryValues="@array/language_array"
             android:key="language_preference"
             android:title="@string/language_title"
-            app:useSimpleSummaryProvider="true"
-            app:icon="@drawable/ic_language"/>
+            app:icon="@drawable/ic_language"
+            app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             android:entries="@array/theme_array"
             android:entryValues="@array/theme_array"
             android:key="theme_preference"
             android:title="@string/theme_title"
-            app:useSimpleSummaryProvider="true"
-            app:icon="@drawable/ic_theme"/>
+            app:icon="@drawable/ic_theme"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             app:defaultValue="true"
+            app:icon="@drawable/ic_notification"
             app:key="notification_preference"
-            app:title="@string/notification_title"
-            app:icon="@drawable/ic_notification"/>
+            app:title="@string/notification_title" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/app_header">
         <Preference
             android:key="get_help_preference"
-            app:title="@string/get_help_title"
-            app:icon="@drawable/ic_get_help" />
+            app:icon="@drawable/ic_get_help"
+            app:title="@string/get_help_title" />
 
         <Preference
             android:key="share_preference"
-            app:title="@string/share_title"
-            app:icon="@drawable/ic_share" />
+            app:icon="@drawable/ic_share"
+            app:title="@string/share_title" />
 
         <Preference
             android:key="about_app_preference"
-            app:title="@string/about_app_title"
-            app:icon="@drawable/ic_about_app"/>
+            app:icon="@drawable/ic_about_app"
+            app:title="@string/about_app_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

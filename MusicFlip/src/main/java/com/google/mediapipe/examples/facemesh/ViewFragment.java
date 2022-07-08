@@ -117,11 +117,9 @@ public class ViewFragment extends Fragment {
             v.setImageDrawable(new BitmapDrawable(null, image));
             TextView t = getView().findViewById(R.id.page_num);
             t.setText(String.format("%d / %d", p + 1, renderer.getPageCount()));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             // Skip if fragment not yet attached
         }
     }
