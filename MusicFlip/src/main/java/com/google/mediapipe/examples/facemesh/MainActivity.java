@@ -1,17 +1,3 @@
-// Copyright 2021 The MediaPipe Authors.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.google.mediapipe.examples.facemesh;
 
 import android.net.Uri;
@@ -21,24 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.MenuItem;
 
-// ContentResolver dependency
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutions.facemesh.FaceMesh;
 import com.google.mediapipe.solutions.facemesh.FaceMeshOptions;
-import com.google.mediapipe.solutions.facemesh.FaceMeshResult;
 
-import java.io.FileNotFoundException;
-import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
-
-import static java.lang.Math.abs;
 
 /** Main activity of MediaPipe Face Mesh app. */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +24,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
   private FaceMesh facemesh;
   private CameraInput cameraInput;
   private static final boolean RUN_ON_GPU = true;
+
+  private Detector detector = new Detector();
+
   private boolean detectionEnable = true;
   private boolean blinkEnable = true;
   private boolean shakeEnable = false;
@@ -57,13 +38,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     BLINK
   }
 
-  private enum Shake {
+  public enum Shake {
     LEFT,
     NONE,
     RIGHT
   }
 
-  private enum Blink {
+  public enum Blink {
     LEFT,
     NONE,
     RIGHT
@@ -188,8 +169,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (System.currentTimeMillis() - coolDown < 1000) {
           return;
         }
-        Enum<Blink> blink = detectBlink(faceMeshResult);
-        Enum<Shake> shake = detectShake(faceMeshResult);
+        List<NormalizedLandmark> landmarks = faceMeshResult.multiFaceLandmarks().get(0).getLandmarkList();
+        detector.setTransformMatrix(landmarks);
+        Enum<Blink> blink = detector.detectBlink(landmarks);
+        Enum<Shake> shake = detector.detectShake(landmarks);
         if (shake == Shake.LEFT) {
           if (shakeEnable) triggerLeft(Source.SHAKE);
           return;
@@ -215,39 +198,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
       900,
       1200
     );
-  }
-
-  final List<Integer> rightEyeUpper = Arrays.asList(398, 384, 385, 386, 387, 388, 466);
-  final List<Integer> rightEyeLower = Arrays.asList(382, 381, 380, 374, 373, 390, 249);
-  final List<Integer> leftEyeUpper = Arrays.asList(246, 161, 160, 159, 158, 157, 173);
-  final List<Integer> leftEyeLower = Arrays.asList(7, 163, 144, 145, 153, 154, 155);
-
-  private Enum<Blink> detectBlink(FaceMeshResult result) {
-
-    if (!blinkEnable) return Blink.NONE;
-
-    List<NormalizedLandmark> landmarks = result.multiFaceLandmarks().get(0).getLandmarkList();
-    float right = 0;
-    float left = 0;
-    float tilt = landmarks.get(0).getX() - landmarks.get(164).getX();
-
-    for (int i = 0; i < 7; ++i) {
-      right += abs(landmarks.get(rightEyeUpper.get(i)).getY() - landmarks.get(rightEyeLower.get(i)).getY());
-      left += abs(landmarks.get(leftEyeUpper.get(i)).getY() - landmarks.get(leftEyeLower.get(i)).getY());
-    }
-
-    if (right > (left + 0.03) && tilt < -0.008) return Blink.LEFT;
-    if (left > (right + 0.03) && tilt > 0.008) return Blink.RIGHT;
-    return Blink.NONE;
-  }
-
-  private Enum<Shake> detectShake(FaceMeshResult result) {
-
-    List<NormalizedLandmark> landmarks = result.multiFaceLandmarks().get(0).getLandmarkList();
-
-    float dz = landmarks.get(454).getZ() - landmarks.get(234).getZ();
-    if (dz > 0.12) return Shake.RIGHT;
-    if (dz < -0.12) return Shake.LEFT;
-    return Shake.NONE;
   }
 }
