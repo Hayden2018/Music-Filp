@@ -10,6 +10,7 @@ import java.util.List;
 public class Detector {
 
     float[] transformMatrix = new float[16];
+    float sensitivity = 0.8f;
 
     public Detector() {
 
@@ -69,6 +70,10 @@ public class Detector {
         Matrix.rotateM(transformMatrix, 0, theta, kx, ky, kz);
     }
 
+    public void setSensitivity(float s) {
+        sensitivity = s;
+    }
+
     final int[] rightEyeUpper = {398, 384, 385, 386, 387, 388, 466};
     final int[] rightEyeLower = {382, 381, 380, 374, 373, 390, 249};
     final int[] leftEyeUpper = {246, 161, 160, 159, 158, 157, 173};
@@ -92,8 +97,13 @@ public class Detector {
             left += bottom[1] - top[1];
         }
 
-        if (right > (left + 0.05f) && tilt < -0.03f) return MainActivity.Blink.LEFT;
-        if (left > (right + 0.05f) && tilt > 0.03f) return MainActivity.Blink.RIGHT;
+        float eyeThreshold = 0.18f - 0.1f * sensitivity;
+        float tiltThreshold = 0.08f - 0.06f * sensitivity;
+
+        if (right < 0.12 && left < 0.12) return MainActivity.Blink.NONE;
+
+        if (right > (left + eyeThreshold) && tilt < -tiltThreshold) return MainActivity.Blink.LEFT;
+        if (left > (right + eyeThreshold) && tilt > tiltThreshold) return MainActivity.Blink.RIGHT;
         return MainActivity.Blink.NONE;
     }
 

@@ -178,7 +178,7 @@ public class CollectionFragment extends Fragment {
             File f = new File(activity.getFilesDir(), fileName);
             PdfRenderer renderer = new PdfRenderer(ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_READ_ONLY));
             PdfRenderer.Page page = renderer.openPage(0);
-            Bitmap preview = Bitmap.createBitmap(page.getWidth(), page.getHeight(), Bitmap.Config.ARGB_8888);
+            Bitmap preview = Bitmap.createBitmap(page.getWidth() / 2, page.getHeight() / 2, Bitmap.Config.ARGB_8888);
             page.render(preview, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
             return preview;
         } catch (IOException e) {

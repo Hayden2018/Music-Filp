@@ -85,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     switch (item.getItemId()) {
       case R.id.collections_button:
+        if (cameraInput != null) {
+          cameraInput.close();
+          cameraInput = null;
+        }
         current = Current.COLLECTION;
         transaction.replace(R.id.fragment, collectionFragment).commit();
         return true;
@@ -92,9 +96,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
       case R.id.view_button:
         current = Current.VIEW;
         transaction.replace(R.id.fragment, viewFragment).commit();
+        if (cameraInput == null) {
+          cameraInput = new CameraInput(this);
+          cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
+          startCamera();
+        }
         return true;
 
       case R.id.settings_button:
+        if (cameraInput != null) {
+          cameraInput.close();
+          cameraInput = null;
+        }
         current = Current.SETTING;
         transaction.replace(R.id.fragment, settingFragment).commit();
         return true;
@@ -195,8 +208,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
       this,
       facemesh.getGlContext(),
       CameraInput.CameraFacing.FRONT,
-      900,
-      1200
+      480,
+      640
     );
   }
 }
