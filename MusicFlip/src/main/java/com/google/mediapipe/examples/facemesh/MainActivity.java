@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
           cameraInput = null;
         }
         current = Current.SETTING;
-        transaction.replace(R.id.fragment, settingFragment).commit();
+        transaction.replace(R.id.fragment, settingFragment).addToBackStack(null).commit();
         return true;
     }
     return false;
