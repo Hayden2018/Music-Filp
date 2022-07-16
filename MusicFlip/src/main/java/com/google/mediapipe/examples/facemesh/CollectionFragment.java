@@ -203,8 +203,7 @@ public class CollectionFragment extends Fragment {
             FileOutputStream destination = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
             FileInputStream source = (FileInputStream) activity.getContentResolver().openInputStream(uri);
             FileUtils.copy(source, destination);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("IO", e.getMessage());
         }
     }
