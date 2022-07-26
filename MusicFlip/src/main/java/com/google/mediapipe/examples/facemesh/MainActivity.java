@@ -87,14 +87,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             cameraInput = new CameraInput(this);
             cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
             startCamera();
-
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (detectionEnable) {
+        if (detectionEnable && cameraInput != null) {
             cameraInput.close();
         }
     }
