@@ -16,14 +16,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     private MainActivity activity;
 
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
-
-    public static SettingsFragment newInstance() {
-        return new SettingsFragment();
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

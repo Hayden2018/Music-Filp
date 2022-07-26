@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
   public ViewFragment viewFragment;
   public CollectionFragment collectionFragment = CollectionFragment.newInstance();
-  public SettingsFragment settingFragment = SettingsFragment.newInstance();
+  public SettingsFragment settingFragment = new SettingsFragment();
 
   private BottomNavigationView bottomNavigationView;
 
@@ -135,6 +136,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        } else {
+            finish();
+        }
+    }
 
     protected void triggerRight() {
         coolDown = System.currentTimeMillis();
