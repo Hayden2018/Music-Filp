@@ -18,16 +18,17 @@
     <PreferenceCategory app:title="@string/general_header">
         <!-- TODO: add summary -->
         <ListPreference
-            android:entries="@array/language_array"
-            android:entryValues="@array/language_array"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
             android:key="language_preference"
             android:title="@string/language_title"
             app:icon="@drawable/ic_language"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue=""/>
 
         <ListPreference
-            android:entries="@array/theme_array"
-            android:entryValues="@array/theme_array"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
             android:key="theme_preference"
             android:title="@string/theme_title"
             app:icon="@drawable/ic_theme"

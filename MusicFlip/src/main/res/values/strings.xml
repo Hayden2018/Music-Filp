@@ -37,5 +37,5 @@
     <string name="about_app_content">This app helps you flip the pages of your sheet music by simply winking your eye or shaking your head (have to be turned on in settings). You do not need to flip the pages by hand anymore!</string>
     <string name="get_help_content"><![CDATA[<u>Winking:</u><br>Flip to next page: wink your right eye<br>Flip to previous page: wink your left eye<br><br><u>Head Shaking:</u><br>Flip to next page: shake to the right<br>Flip to previous page: shake to the left]]></string>
     <string name="share_content">This is a fantastic app that could help you flip your music sheet easily during your performance by simply winking your eye or shaking your head! Download and try the Music Flip App for free: https://www.google.com </string>
-
+    <string name="auto">Auto</string>
 </resources>
