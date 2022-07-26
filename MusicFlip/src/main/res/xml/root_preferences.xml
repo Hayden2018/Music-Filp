@@ -1,21 +1,48 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/functionalities_header">
-        <SeekBarPreference
-            android:max="100"
-            app:defaultValue="80"
-            app:key="blink_sensitivity_preference"
-            app:showSeekBarValue="true"
-            app:title="@string/blink_sensitivity_title" />
+    <PreferenceCategory android:title="@string/functionalities_header">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="ai_detector_preference"
+            android:title="@string/ai_detector" />
 
         <SwitchPreferenceCompat
-            app:defaultValue="false"
-            app:key="detect_head_shake_preference"
-            app:title="@string/detect_head_shaking_title" />
+            android:dependency="ai_detector_preference"
+            android:defaultValue="true"
+            android:key="blink_preference"
+            android:title="@string/blinking_title" />
+
+        <SeekBarPreference
+            android:dependency="blink_preference"
+            android:max="100"
+            android:defaultValue="80"
+            android:key="blink_sensitivity_preference"
+            app:showSeekBarValue="true"
+            android:title="@string/blink_sensitivity_title" />
+
+        <SwitchPreferenceCompat
+            android:dependency="ai_detector_preference"
+            android:defaultValue="true"
+            android:key="eye_closing_preference"
+            android:title="@string/eye_closing_title" />
+
+        <SeekBarPreference
+            android:dependency="eye_closing_preference"
+            android:max="5"
+            android:defaultValue="2"
+            android:key="eye_closing_duration_preference"
+            app:showSeekBarValue="true"
+            android:title="@string/eye_closing_duration_title" />
+
+        <SwitchPreferenceCompat
+            android:dependency="ai_detector_preference"
+            android:defaultValue="false"
+            android:key="detect_head_shake_preference"
+            android:title="@string/detect_head_shaking_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/general_header">
+    <PreferenceCategory android:title="@string/general_header">
         <!-- TODO: add summary -->
         <ListPreference
             android:entries="@array/language_entries"
@@ -24,7 +51,7 @@
             android:title="@string/language_title"
             app:icon="@drawable/ic_language"
             app:useSimpleSummaryProvider="true"
-            app:defaultValue=""/>
+            android:defaultValue=""/>
 
         <ListPreference
             android:entries="@array/theme_entries"
@@ -35,27 +62,27 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:defaultValue="true"
+            android:defaultValue="true"
             app:icon="@drawable/ic_notification"
-            app:key="notification_preference"
-            app:title="@string/notification_title" />
+            android:key="notification_preference"
+            android:title="@string/notification_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/app_header">
+    <PreferenceCategory android:title="@string/app_header">
         <Preference
             android:key="get_help_preference"
             app:icon="@drawable/ic_get_help"
-            app:title="@string/get_help_title" />
+            android:title="@string/get_help_title" />
 
         <Preference
             android:key="share_preference"
             app:icon="@drawable/ic_share"
-            app:title="@string/share_title" />
+            android:title="@string/share_title" />
 
         <Preference
             android:key="about_app_preference"
             app:icon="@drawable/ic_about_app"
-            app:title="@string/about_app_title" />
+            android:title="@string/about_app_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

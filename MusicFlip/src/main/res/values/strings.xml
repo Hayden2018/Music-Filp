@@ -22,7 +22,6 @@
     <string name="functionalities_header">Functionalities</string>
     <string name="general_header">General Settings</string>
     <string name="app_header">Application</string>
-    <string name="blink_sensitivity_title">Blink Sensitivity</string>
     <string name="detect_head_shaking_title">Detect Head Shaking</string>
     <string name="language_title">Language</string>
     <string name="theme_title">Theme</string>
@@ -38,4 +37,9 @@
     <string name="get_help_content"><![CDATA[<u>Winking:</u><br>Flip to next page: wink your right eye<br>Flip to previous page: wink your left eye<br><br><u>Head Shaking:</u><br>Flip to next page: shake to the right<br>Flip to previous page: shake to the left]]></string>
     <string name="share_content">This is a fantastic app that could help you flip your music sheet easily during your performance by simply winking your eye or shaking your head! Download and try the Music Flip App for free: https://www.google.com </string>
     <string name="auto">Auto</string>
+    <string name="ai_detector">AI Detector</string>
+    <string name="blinking_title">Blinking</string>
+    <string name="blink_sensitivity_title">Sensitivity</string>
+    <string name="eye_closing_title">Eye Closing</string>
+    <string name="eye_closing_duration_title">Duration (sec)</string>
 </resources>
