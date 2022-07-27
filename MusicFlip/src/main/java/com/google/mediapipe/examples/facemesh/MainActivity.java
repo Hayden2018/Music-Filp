@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
   private CameraInput cameraInput;
   private static final boolean RUN_ON_GPU = true;
 
-  private Detector detector = new Detector();
+  private SVMDetector detector;
 
   private boolean detectionEnable = true;
   private boolean blinkEnable = true;
@@ -68,16 +68,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupLiveDemoUiComponents();
-
-        loadSettings();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-
         bottomNavigationView.setSelectedItemId(R.id.view_button);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         viewFragment = (ViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+
+        detector = new SVMDetector(getResources());
+        loadSettings();
+
+        setupLiveDemoUiComponents();
     }
 
     @Override
