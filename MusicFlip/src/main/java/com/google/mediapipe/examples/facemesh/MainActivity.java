@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
@@ -31,10 +32,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
   private boolean detectionEnable = true;
   private boolean blinkEnable = true;
+  private boolean eyeCloseEnable = true;
   private boolean shakeEnable = false;
 
     private static final int DEFAULT_BLINK_SENSITIVITY = 80;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
+
+    private static final int DEFAULT_EYE_CLOSE_DURATION = 2;
+    private int eyeCloseDuration = DEFAULT_EYE_CLOSE_DURATION;
 
     protected long coolDown = System.currentTimeMillis();
 
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
   public ViewFragment viewFragment;
   public CollectionFragment collectionFragment = CollectionFragment.newInstance();
-  public SettingsFragment settingFragment = SettingsFragment.newInstance();
+  public SettingsFragment settingFragment = new SettingsFragment();
 
   private BottomNavigationView bottomNavigationView;
 
@@ -88,14 +93,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             cameraInput = new CameraInput(this);
             cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
             startCamera();
-
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (detectionEnable) {
+        if (detectionEnable && cameraInput != null) {
             cameraInput.close();
         }
     }
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
       case R.id.view_button:
         current = Current.VIEW;
         transaction.replace(R.id.fragment, viewFragment).commit();
-        if (cameraInput == null) {
+        if (detectionEnable && cameraInput == null) {
           cameraInput = new CameraInput(this);
           cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
           startCamera();
@@ -137,6 +141,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        } else {
+            finish();
+        }
+    }
 
     protected void triggerRight() {
         coolDown = System.currentTimeMillis();
@@ -225,9 +237,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     // load settings by reading the shared preferences
     protected void loadSettings() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        detectionEnable = sharedPreferences.getBoolean("ai_detector_preference", true);
+        blinkEnable = sharedPreferences.getBoolean("blink_preference", true);
+        eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
         shakeEnable = sharedPreferences.getBoolean("detect_head_shake_preference", false);
+
         blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY) / 100f;
         detector.setSensitivity(blinkSensitivity);
+
+        eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
     }
 
 }
