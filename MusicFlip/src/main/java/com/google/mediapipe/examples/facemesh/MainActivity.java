@@ -229,8 +229,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 this,
                 facemesh.getGlContext(),
                 CameraInput.CameraFacing.FRONT,
-                900,
-                1200
+                600,
+                800
         );
     }
 

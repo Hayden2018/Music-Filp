@@ -38,18 +38,27 @@ public class Detector {
         float norm = (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
         float scalar = 1 / norm;
 
+        float[] optMat = new float[16];
+        float[] resultMat = new float[16];
+
         Matrix.setIdentityM(transformMatrix, 0);
+        Matrix.setIdentityM(optMat, 0);
         Matrix.translateM(transformMatrix, 0, -bx, -by, -bz);
-        Matrix.scaleM(transformMatrix, 0, scalar, scalar, scalar);
+        Matrix.scaleM(optMat, 0, scalar, scalar, scalar);
+        Matrix.multiplyMM(resultMat, 0, optMat, 0, transformMatrix, 0);
+        transformMatrix = resultMat;
 
         // k is the axis of rotation to rotate reference vector to (0, 0, -1)
         // theta is the angle of rotation
         float kx = -ry;
         float ky = rx;
         float kz = 0;
-        float theta = (float) Math.acos(-rz * scalar);
+        float theta = (float) (Math.acos(-rz * scalar) * 180 / Math.PI);
 
-        Matrix.rotateM(transformMatrix, 0, theta, kx, ky, kz);
+        Matrix.setIdentityM(optMat, 0);
+        Matrix.rotateM(optMat, 0, theta, kx, ky, kz);
+        Matrix.multiplyMM(resultMat, 0, optMat, 0, transformMatrix, 0);
+        transformMatrix = resultMat;
 
         float[] top = transform(landmarks.get(10));
 
@@ -65,9 +74,12 @@ public class Detector {
         kx = uz;
         ky = 0;
         kz = -ux;
-        theta = (float) Math.acos(-uy * scalar);
+        theta = (float) (Math.acos(-uy * scalar) * 180 / Math.PI);
 
-        Matrix.rotateM(transformMatrix, 0, theta, kx, ky, kz);
+        Matrix.setIdentityM(optMat, 0);
+        Matrix.rotateM(optMat, 0, theta, kx, ky, kz);
+        Matrix.multiplyMM(resultMat, 0, optMat, 0, transformMatrix, 0);
+        transformMatrix = resultMat;
     }
 
     public void setSensitivity(float s) {
@@ -97,10 +109,10 @@ public class Detector {
             left += bottom[1] - top[1];
         }
 
-        float eyeThreshold = 0.18f - 0.1f * sensitivity;
-        float tiltThreshold = 0.08f - 0.06f * sensitivity;
+        float eyeThreshold = 0.05f;
+        float tiltThreshold = 0.03f;
 
-        if (right < 0.12 && left < 0.12) return MainActivity.Blink.NONE;
+        if (right < 0.05f && left < 0.05f) return MainActivity.Blink.NONE;
 
         if (right > (left + eyeThreshold) && tilt < -tiltThreshold) return MainActivity.Blink.LEFT;
         if (left > (right + eyeThreshold) && tilt > tiltThreshold) return MainActivity.Blink.RIGHT;

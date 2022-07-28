@@ -2,7 +2,6 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.content.res.Resources;
 import android.opengl.Matrix;
-import android.util.Log;
 
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 
@@ -42,9 +41,14 @@ public class SVMDetector {
                 Rp[i] = (float) Rparam.getDouble(i);
                 Lp[i] = (float) Lparam.getDouble(i);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setSensitivity(float s) {
+        sensitivity = s;
     }
 
     private float[] transform(NormalizedLandmark lm) {
@@ -69,18 +73,27 @@ public class SVMDetector {
         float norm = (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
         float scalar = 1 / norm;
 
+        float[] optMat = new float[16];
+        float[] resultMat = new float[16];
+
         Matrix.setIdentityM(transformMatrix, 0);
+        Matrix.setIdentityM(optMat, 0);
         Matrix.translateM(transformMatrix, 0, -bx, -by, -bz);
-        Matrix.scaleM(transformMatrix, 0, scalar, scalar, scalar);
+        Matrix.scaleM(optMat, 0, scalar, scalar, scalar);
+        Matrix.multiplyMM(resultMat, 0, optMat, 0, transformMatrix, 0);
+        transformMatrix = resultMat;
 
         // k is the axis of rotation to rotate reference vector to (0, 0, -1)
         // theta is the angle of rotation
         float kx = -ry;
         float ky = rx;
         float kz = 0;
-        float theta = (float) Math.acos(-rz * scalar);
+        float theta = (float) (Math.acos(-rz * scalar) * 180 / Math.PI);
 
-        Matrix.rotateM(transformMatrix, 0, theta, kx, ky, kz);
+        Matrix.setIdentityM(optMat, 0);
+        Matrix.rotateM(optMat, 0, theta, kx, ky, kz);
+        Matrix.multiplyMM(resultMat, 0, optMat, 0, transformMatrix, 0);
+        transformMatrix = resultMat;
 
         float[] top = transform(landmarks.get(10));
 
@@ -96,13 +109,12 @@ public class SVMDetector {
         kx = uz;
         ky = 0;
         kz = -ux;
-        theta = (float) Math.acos(-uy * scalar);
+        theta = (float) (Math.acos(-uy * scalar) * 180 / Math.PI);
 
-        Matrix.rotateM(transformMatrix, 0, theta, kx, ky, kz);
-    }
-
-    public void setSensitivity(float s) {
-        sensitivity = s;
+        Matrix.setIdentityM(optMat, 0);
+        Matrix.rotateM(optMat, 0, theta, kx, ky, kz);
+        Matrix.multiplyMM(resultMat, 0, optMat, 0, transformMatrix, 0);
+        transformMatrix = resultMat;
     }
 
     public Enum<MainActivity.Blink> detectBlink(List<NormalizedLandmark> landmarks) {
@@ -118,18 +130,13 @@ public class SVMDetector {
             Lscore += Lp[i] * lm[0] + Lp[i + 1] * lm[1] + Lp[i + 2] * lm[2];
         }
 
-        Log.e("BB", String.valueOf(Nscore) + " | " + String.valueOf(Lscore) + " | " + String.valueOf(Rscore));
-
         if (Nscore > Rscore && Nscore > Lscore) {
             return MainActivity.Blink.NONE;
         }
         if (Rscore > Lscore) {
-//            Log.e("BB", "Right");
-            return MainActivity.Blink.RIGHT;
+            return MainActivity.Blink.LEFT;
         }
-//        Log.e("BB", "Left");
-        return MainActivity.Blink.LEFT;
-
+        return MainActivity.Blink.RIGHT;
     }
 
     public Enum<MainActivity.Shake> detectShake(List<NormalizedLandmark> landmarks) {
@@ -145,6 +152,5 @@ public class SVMDetector {
         if (rx / rz > 0.3) return MainActivity.Shake.RIGHT;
         if (rx / rz < -0.3) return MainActivity.Shake.LEFT;
         return MainActivity.Shake.NONE;
-
     }
 }
