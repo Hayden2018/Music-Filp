@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
   private boolean eyeCloseEnable = true;
   private boolean shakeEnable = false;
 
-    private static final int DEFAULT_BLINK_SENSITIVITY = 80;
+    private static final int DEFAULT_BLINK_SENSITIVITY = 50;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
 
     private static final int DEFAULT_EYE_CLOSE_DURATION = 2;
@@ -83,25 +82,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         detector = new SVMDetector(getResources());
         loadSettings();
 
-        setupLiveDemoUiComponents();
+        setupDetectionPipeline();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (detectionEnable) {
-            cameraInput = new CameraInput(this);
-            cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
-            startCamera();
-        }
+        if (detectionEnable && current == Current.VIEW) startCamera();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (detectionEnable && cameraInput != null) {
-            cameraInput.close();
-        }
+        closeCamera();
     }
 
   @Override
@@ -111,31 +104,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     switch (item.getItemId()) {
       case R.id.collections_button:
-        if (cameraInput != null) {
-          cameraInput.close();
-          cameraInput = null;
-        }
         current = Current.COLLECTION;
         transaction.replace(R.id.fragment, collectionFragment).commit();
+        closeCamera();
         return true;
 
       case R.id.view_button:
         current = Current.VIEW;
         transaction.replace(R.id.fragment, viewFragment).commit();
-        if (detectionEnable && cameraInput == null) {
-          cameraInput = new CameraInput(this);
-          cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
-          startCamera();
-        }
+        if (detectionEnable) startCamera();
         return true;
 
       case R.id.settings_button:
-        if (cameraInput != null) {
-          cameraInput.close();
-          cameraInput = null;
-        }
         current = Current.SETTING;
         transaction.replace(R.id.fragment, settingFragment).addToBackStack(null).commit();
+        closeCamera();
         return true;
     }
     return false;
@@ -171,53 +154,37 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setSelectedItemId(R.id.view_button);
     }
 
-    /**
-     * Sets up the UI components for the live demo with camera input.
-     */
-    private void setupLiveDemoUiComponents() {
-        setupStreamingModePipeline();
-    }
-
-    /**
-     * Sets up core workflow for streaming mode.
-     */
-    private void setupStreamingModePipeline() {
+    private void setupDetectionPipeline() {
 
         facemesh = new FaceMesh(
-                this,
-                FaceMeshOptions.builder()
-                        .setStaticImageMode(false)
-                        .setRefineLandmarks(true)
-                        .setRunOnGpu(RUN_ON_GPU)
-                        .build());
+            this,
+            FaceMeshOptions.builder()
+                    .setStaticImageMode(false)
+                    .setRefineLandmarks(true)
+                    .setRunOnGpu(RUN_ON_GPU)
+                    .build());
         facemesh.setErrorListener((message, e) -> Log.e("MediaPipe Error", message));
 
-        cameraInput = new CameraInput(this);
-        cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
-
         facemesh.setResultListener(
-                faceMeshResult -> {
-                    if (faceMeshResult.multiFaceLandmarks().isEmpty()) {
-                        return;
-                    }
-                    if (System.currentTimeMillis() - coolDown < 1000) {
-                        return;
-                    }
-                    List<NormalizedLandmark> landmarks = faceMeshResult.multiFaceLandmarks().get(0).getLandmarkList();
-                    detector.setTransformMatrix(landmarks);
-                    Enum<Blink> blink = detector.detectBlink(landmarks);
+            faceMeshResult -> {
+                if (!detectionEnable || faceMeshResult.multiFaceLandmarks().isEmpty()) {
+                    return;
+                }
+                if (System.currentTimeMillis() - coolDown < 1000) {
+                    return;
+                }
+                List<NormalizedLandmark> landmarks = faceMeshResult.multiFaceLandmarks().get(0).getLandmarkList();
+                detector.setTransformMatrix(landmarks);
+
+                if (blinkEnable) {
                     Enum<Shake> shake = detector.detectShake(landmarks);
-                    if (shake == Shake.LEFT) {
-                        if (shakeEnable) triggerLeft();
-                        return;
-                    }
-                    if (shake == Shake.RIGHT) {
-                        if (shakeEnable) triggerRight();
-                        return;
-                    }
+                    if (shake != Shake.NONE) return;
+
+                    Enum<Blink> blink = detector.detectBlink(landmarks);
                     if (blink == Blink.LEFT) triggerLeft();
                     if (blink == Blink.RIGHT) triggerRight();
-                });
+                }
+            });
 
         if (detectionEnable) {
             startCamera();
@@ -225,6 +192,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void startCamera() {
+        cameraInput = new CameraInput(this);
+        cameraInput.setNewFrameListener(textureFrame -> facemesh.send(textureFrame));
         cameraInput.start(
                 this,
                 facemesh.getGlContext(),
@@ -234,10 +203,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         );
     }
 
+    private void closeCamera() {
+        if (cameraInput != null) {
+            cameraInput.close();
+            cameraInput = null;
+        }
+    }
+
     // load settings by reading the shared preferences
     protected void loadSettings() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         detectionEnable = sharedPreferences.getBoolean("ai_detector_preference", true);
+
         blinkEnable = sharedPreferences.getBoolean("blink_preference", true);
         eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
         shakeEnable = sharedPreferences.getBoolean("detect_head_shake_preference", false);

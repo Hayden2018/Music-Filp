@@ -16,7 +16,7 @@
         <SeekBarPreference
             android:dependency="blink_preference"
             android:max="100"
-            android:defaultValue="80"
+            android:defaultValue="50"
             android:key="blink_sensitivity_preference"
             app:showSeekBarValue="true"
             android:title="@string/blink_sensitivity_title" />

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Build;
@@ -179,6 +180,7 @@ public class CollectionFragment extends Fragment {
             PdfRenderer renderer = new PdfRenderer(ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_READ_ONLY));
             PdfRenderer.Page page = renderer.openPage(0);
             Bitmap preview = Bitmap.createBitmap(page.getWidth() / 2, page.getHeight() / 2, Bitmap.Config.ARGB_8888);
+            preview.eraseColor(Color.WHITE);
             page.render(preview, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
             return preview;
         } catch (IOException e) {

@@ -1,6 +1,7 @@
 package com.google.mediapipe.examples.facemesh;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
@@ -111,10 +112,11 @@ public class ViewFragment extends Fragment {
             file = getActivity().getContentResolver().openFileDescriptor(current, "r");
             renderer = new PdfRenderer(file);
             currentPage = renderer.openPage(p);
-            Bitmap image = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
-            currentPage.render(image, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
+            page.eraseColor(Color.WHITE);
+            currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
             ImageSwitcher v = getView().findViewById(R.id.docu_view);
-            v.setImageDrawable(new BitmapDrawable(null, image));
+            v.setImageDrawable(new BitmapDrawable(null, page));
             TextView t = getView().findViewById(R.id.page_num);
             t.setText(String.format("%d / %d", p + 1, renderer.getPageCount()));
         } catch (IOException e) {
@@ -129,13 +131,14 @@ public class ViewFragment extends Fragment {
             p += 1;
             currentPage.close();
             currentPage = renderer.openPage(p);
-            Bitmap image = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
-            currentPage.render(image, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
+            page.eraseColor(Color.WHITE);
+            currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromRight);
                 v.setOutAnimation(toLeft);
-                v.setImageDrawable(new BitmapDrawable(null, image));
+                v.setImageDrawable(new BitmapDrawable(null, page));
                 TextView t = getView().findViewById(R.id.page_num);
                 t.setText(String.format("%d / %d", p + 1, renderer.getPageCount()));
             });
@@ -147,13 +150,14 @@ public class ViewFragment extends Fragment {
             p -= 1;
             currentPage.close();
             currentPage = renderer.openPage(p);
-            Bitmap pdfImage = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
-            currentPage.render(pdfImage, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
+            page.eraseColor(Color.WHITE);
+            currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromLeft);
                 v.setOutAnimation(toRight);
-                v.setImageDrawable(new BitmapDrawable(null, pdfImage));
+                v.setImageDrawable(new BitmapDrawable(null, page));
                 TextView t = getView().findViewById(R.id.page_num);
                 t.setText(String.format("%d / %d", p + 1, renderer.getPageCount()));
             });

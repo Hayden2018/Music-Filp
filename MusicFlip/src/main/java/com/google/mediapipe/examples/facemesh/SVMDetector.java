@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class SVMDetector {
 
     float[] transformMatrix = new float[16];
-    float sensitivity = 0.8f;
+    float sensitivity = 0.5f;
 
     float[] Np = new float[1434];
     float[] Rp = new float[1434];
@@ -119,7 +119,7 @@ public class SVMDetector {
 
     public Enum<MainActivity.Blink> detectBlink(List<NormalizedLandmark> landmarks) {
 
-        float Nscore = -Nbias;
+        float Nscore = -Nbias + (0.9f - sensitivity * 1.2f);
         float Rscore = -Rbias;
         float Lscore = -Lbias;
 
@@ -149,8 +149,8 @@ public class SVMDetector {
         float rx = landmarks.get(1).getX() - bx;
         float rz = landmarks.get(1).getZ() - bz;
 
-        if (rx / rz > 0.3) return MainActivity.Shake.RIGHT;
-        if (rx / rz < -0.3) return MainActivity.Shake.LEFT;
+        if (rx / rz > 0.4) return MainActivity.Shake.RIGHT;
+        if (rx / rz < -0.4) return MainActivity.Shake.LEFT;
         return MainActivity.Shake.NONE;
     }
 }
