@@ -78,8 +78,8 @@ public class CollectionFragment extends Fragment {
             new ActivityResultContracts.GetContent(),
             (Uri uri) -> {
                 if (uri == null) return;
-                saveFile(uri);
                 activity.openAndView(uri);
+                saveFile(uri);
             }
         );
         FloatingActionButton addButton = getView().findViewById(R.id.add_doc);
@@ -201,12 +201,13 @@ public class CollectionFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void saveFile(Uri uri) {
         try {
+            Log.e("File Save", "Started");
             String fileName = getFileName(uri);
             FileOutputStream destination = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
             FileInputStream source = (FileInputStream) activity.getContentResolver().openInputStream(uri);
             FileUtils.copy(source, destination);
         } catch (IOException e) {
-            Log.e("IO", e.getMessage());
+            Log.e("File Save", e.getMessage());
         }
     }
 }

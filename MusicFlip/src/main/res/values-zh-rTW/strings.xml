@@ -39,6 +39,6 @@
     <string name="blinking_title">眨眼</string>
     <string name="blink_sensitivity_title">感應靈敏度</string>
     <string name="eye_closing_title">合眼</string>
-    <string name="eye_closing_duration_title">時間長度 (秒)</string>
+    <string name="eye_closing_duration_title">時間長度 (0.5 秒)</string>
 
 </resources>

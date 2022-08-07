@@ -1,10 +1,13 @@
 package com.google.mediapipe.examples.facemesh;
 
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
@@ -25,14 +28,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
   private FaceMesh facemesh;
   private CameraInput cameraInput;
-  private static final boolean RUN_ON_GPU = true;
-
   private SVMDetector detector;
 
   private boolean detectionEnable = true;
   private boolean blinkEnable = true;
   private boolean eyeCloseEnable = true;
-  private boolean shakeEnable = false;
 
     private static final int DEFAULT_BLINK_SENSITIVITY = 50;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
   private BottomNavigationView bottomNavigationView;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setSelectedItemId(R.id.view_button);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setupDetectionPipeline() {
 
         facemesh = new FaceMesh(
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             FaceMeshOptions.builder()
                     .setStaticImageMode(false)
                     .setRefineLandmarks(true)
-                    .setRunOnGpu(RUN_ON_GPU)
+                    .setRunOnGpu(true)
                     .build());
         facemesh.setErrorListener((message, e) -> Log.e("MediaPipe Error", message));
 
@@ -176,13 +178,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 List<NormalizedLandmark> landmarks = faceMeshResult.multiFaceLandmarks().get(0).getLandmarkList();
                 detector.setTransformMatrix(landmarks);
 
-                if (blinkEnable) {
-                    Enum<Shake> shake = detector.detectShake(landmarks);
-                    if (shake != Shake.NONE) return;
+                Enum<Shake> shake = detector.detectShake(landmarks);
+                if (shake != Shake.NONE) return;
 
+                if (blinkEnable) {
                     Enum<Blink> blink = detector.detectBlink(landmarks);
                     if (blink == Blink.LEFT) triggerLeft();
                     if (blink == Blink.RIGHT) triggerRight();
+                }
+
+                if (eyeCloseEnable) {
+                    boolean eyeClose = detector.detectClose(landmarks);
+                    if (eyeClose) triggerRight();
                 }
             });
 
@@ -217,13 +224,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         detectionEnable = sharedPreferences.getBoolean("ai_detector_preference", true);
 
         blinkEnable = sharedPreferences.getBoolean("blink_preference", true);
-        eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
-        shakeEnable = sharedPreferences.getBoolean("detect_head_shake_preference", false);
-
         blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY) / 100f;
         detector.setSensitivity(blinkSensitivity);
 
+        eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
         eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
+        detector.setCloseDuration(eyeCloseDuration * 5);
     }
 
 }

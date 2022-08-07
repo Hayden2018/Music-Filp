@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.pdf.PdfRenderer;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -38,16 +39,10 @@ public class ViewFragment extends Fragment {
     protected PdfRenderer.Page currentPage;
     protected int p = 0;
 
+    private MediaPlayer flipSound;
+
     public ViewFragment() {
         // Required empty public constructor
-    }
-
-    // TODO: Rename and change types and number of parameters
-    public static ViewFragment newInstance() {
-        ViewFragment fragment = new ViewFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -57,6 +52,7 @@ public class ViewFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        flipSound = MediaPlayer.create(getActivity(), R.raw.page_flip);
         return inflater.inflate(R.layout.fragment_view, container, false);
     }
 
@@ -134,6 +130,7 @@ public class ViewFragment extends Fragment {
             Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
             page.eraseColor(Color.WHITE);
             currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            flipSound.start();
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromRight);
@@ -153,6 +150,7 @@ public class ViewFragment extends Fragment {
             Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
             page.eraseColor(Color.WHITE);
             currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            flipSound.start();
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromLeft);

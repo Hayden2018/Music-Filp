@@ -2,6 +2,9 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.content.res.Resources;
 import android.opengl.Matrix;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 
@@ -10,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +22,7 @@ public class SVMDetector {
     float[] transformMatrix = new float[16];
     float sensitivity = 0.5f;
 
+    // Params for blink detection
     float[] Np = new float[1434];
     float[] Rp = new float[1434];
     float[] Lp = new float[1434];
@@ -25,10 +30,19 @@ public class SVMDetector {
     float Rbias;
     float Lbias;
 
+    // Params for close-eye detection
+    float[] Cp = new float[1434];
+    float Cbias;
+
+    int duration = 15;
+    int[] countQueue = new int[duration];
+    int top = 0;
+
     public SVMDetector(Resources r) {
-        InputStream stream = r.openRawResource(R.raw.params);
-        String jsonString = new Scanner(stream).useDelimiter("\\A").next();
+
         try {
+            InputStream stream = r.openRawResource(R.raw.blink_params);
+            String jsonString = new Scanner(stream).useDelimiter("\\A").next();
             JSONObject params = new JSONObject(jsonString);
             Nbias = (float) params.getDouble("N_bias");
             Rbias = (float) params.getDouble("R_bias");
@@ -42,6 +56,14 @@ public class SVMDetector {
                 Lp[i] = (float) Lparam.getDouble(i);
             }
 
+            stream = r.openRawResource(R.raw.close_params);
+            jsonString = new Scanner(stream).useDelimiter("\\A").next();
+            params = new JSONObject(jsonString);
+            Cbias = (float) params.getDouble("bias");
+            JSONArray Cparam = params.getJSONArray("weight");
+            for (int i = 0; i < 1434; ++i) {
+                Cp[i] = (float) Cparam.getDouble(i);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -49,6 +71,16 @@ public class SVMDetector {
 
     public void setSensitivity(float s) {
         sensitivity = s;
+    }
+
+    public void setCloseDuration(int n) {
+        duration = n;
+        countQueue = new int[duration];
+        top = 0;
+    }
+
+    public void refresh() {
+        countQueue = new int[duration];
     }
 
     private float[] transform(NormalizedLandmark lm) {
@@ -137,6 +169,29 @@ public class SVMDetector {
             return MainActivity.Blink.LEFT;
         }
         return MainActivity.Blink.RIGHT;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public boolean detectClose(List<NormalizedLandmark> landmarks) {
+
+        float score = -Cbias;
+
+        for (int i = 0; i < 1434; i = i + 3) {
+            float[] lm = transform(landmarks.get(i / 3));
+            score += Cp[i] * lm[0] + Cp[i + 1] * lm[1] + Cp[i + 2] * lm[2];
+        }
+
+        if (score > 0f) countQueue[top] = 1;
+        else countQueue[top] = 0;
+
+        if (top + 1 == duration) top = 0;
+        else top += 1;
+
+        if (Arrays.stream(countQueue).sum() / (float) duration > 0.8f) {
+            countQueue = new int[duration];
+            return true;
+        }
+        return false;
     }
 
     public Enum<MainActivity.Shake> detectShake(List<NormalizedLandmark> landmarks) {

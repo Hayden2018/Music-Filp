@@ -29,17 +29,13 @@
 
         <SeekBarPreference
             android:dependency="eye_closing_preference"
-            android:max="5"
+            android:max="10"
+            android:min="1"
             android:defaultValue="2"
             android:key="eye_closing_duration_preference"
             app:showSeekBarValue="true"
             android:title="@string/eye_closing_duration_title" />
 
-        <SwitchPreferenceCompat
-            android:dependency="ai_detector_preference"
-            android:defaultValue="false"
-            android:key="detect_head_shake_preference"
-            android:title="@string/detect_head_shaking_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/general_header">
