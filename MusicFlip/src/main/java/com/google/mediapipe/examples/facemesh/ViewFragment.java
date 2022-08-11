@@ -48,6 +48,7 @@ public class ViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.view_title);
     }
 
     @Override

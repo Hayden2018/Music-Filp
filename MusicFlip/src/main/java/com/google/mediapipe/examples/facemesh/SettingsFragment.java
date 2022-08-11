@@ -1,19 +1,34 @@
 package com.google.mediapipe.examples.facemesh;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.Locale;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -23,6 +38,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         activity = (MainActivity) getActivity();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivity().setTitle(R.string.setting_title);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -92,6 +113,33 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             } else {
                 eyeClosePref.setChecked(true);
             }
+            return true;
+        });
+
+
+        ListPreference localePref = findPreference("language_preference");
+        localePref.setOnPreferenceChangeListener((preference, newVal) -> {
+
+//            Locale locale = new Locale(newVal.toString());
+//            Locale.setDefault(locale);
+//
+//            Configuration config = new Configuration();
+//            config.locale = locale;
+//
+//            getActivity().getBaseContext().getResources().updateConfiguration(config,
+//                    getActivity().getBaseContext().getResources().getDisplayMetrics());
+            String lang = newVal.toString();
+            activity.setLocale(lang);
+
+
+//            Locale locale = new Locale(newVal.toString());
+//            Locale.setDefault(locale);
+//            Configuration config = new Configuration();
+//            config.locale = locale;
+//            getActivity().getApplicationContext().getResources().updateConfiguration(config, null);
+//            getActivity().finish();
+//            startActivity(getActivity().getIntent());
+
             return true;
         });
     }

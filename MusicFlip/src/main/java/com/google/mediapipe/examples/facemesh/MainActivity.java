@@ -1,6 +1,10 @@
 package com.google.mediapipe.examples.facemesh;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -12,8 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
@@ -22,6 +28,7 @@ import com.google.mediapipe.solutions.facemesh.FaceMesh;
 import com.google.mediapipe.solutions.facemesh.FaceMeshOptions;
 
 import java.util.List;
+import java.util.Locale;
 
 /** Main activity of MediaPipe Face Mesh app. */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -98,7 +105,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         closeCamera();
     }
 
-  @Override
+    @Override
+    public void setContentView(int layoutResID) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String lang = sharedPreferences.getString("language_preference", "");
+        Log.i("TAG", "setContentView: "+lang);
+
+        Locale myLocale;
+        if (lang.equals("zh-rTW")){
+            myLocale = Locale.TAIWAN;
+        } else {
+            myLocale = new Locale(lang);
+        }
+        Locale.setDefault(myLocale);
+        Configuration config = new Configuration();
+        config.locale = myLocale;
+        this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
+
+        super.setContentView(layoutResID);
+    }
+
+    @Override
   public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -230,6 +258,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
         eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
         detector.setCloseDuration(eyeCloseDuration);
+
+        String lang = sharedPreferences.getString("language_preference", "");
+        Log.i("TAG", lang);
+
+    }
+
+    protected void setLocale(String lang){
+        Locale myLocale;
+        if (lang.equals("zh-rTW")){
+            myLocale = Locale.TAIWAN;
+        } else {
+            myLocale = new Locale(lang);
+        }
+
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, MainActivity.class);
+
+        startActivity(refresh);
+        finish();
     }
 
 }
