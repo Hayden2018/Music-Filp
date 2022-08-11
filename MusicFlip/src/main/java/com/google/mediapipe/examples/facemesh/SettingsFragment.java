@@ -123,11 +123,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             return true;
         });
 
-//        ListPreference themePref = findPreference("theme_preference");
-//        themePref.setOnPreferenceChangeListener(((preference, newValue) -> {
-//
-//            return true;
-//        }));
+        ListPreference themePref = findPreference("theme_preference");
+        themePref.setOnPreferenceChangeListener(((preference, newValue) -> {
+            startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
+            return true;
+        }));
 
     }
 

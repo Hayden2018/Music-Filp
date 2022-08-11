@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutions.facemesh.FaceMesh;
@@ -34,13 +35,13 @@ import java.util.Locale;
 /** Main activity of MediaPipe Face Mesh app. */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-  private FaceMesh facemesh;
-  private CameraInput cameraInput;
-  private SVMDetector detector;
+    private FaceMesh facemesh;
+    private CameraInput cameraInput;
+    private SVMDetector detector;
 
-  private boolean detectionEnable = true;
-  private boolean blinkEnable = true;
-  private boolean eyeCloseEnable = true;
+    private boolean detectionEnable = true;
+    private boolean blinkEnable = true;
+    private boolean eyeCloseEnable = true;
 
     private static final int DEFAULT_BLINK_SENSITIVITY = 50;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
@@ -50,43 +51,44 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     protected long coolDown = System.currentTimeMillis();
 
-  public enum Shake {
-    LEFT,
-    NONE,
-    RIGHT
-  }
+    public enum Shake {
+        LEFT,
+        NONE,
+        RIGHT
+    }
 
-  public enum Blink {
-    LEFT,
-    NONE,
-    RIGHT
-  }
+    public enum Blink {
+        LEFT,
+        NONE,
+        RIGHT
+    }
 
-  private enum Current {
-    COLLECTION,
-    VIEW,
-    SETTING
-  }
+    private enum Current {
+        COLLECTION,
+        VIEW,
+        SETTING
+    }
 
-  Enum<Current> current = Current.VIEW;
+    Enum<Current> current = Current.VIEW;
 
-  public ViewFragment viewFragment;
-  public CollectionFragment collectionFragment = CollectionFragment.newInstance();
-  public SettingsFragment settingFragment = new SettingsFragment();
+    public ViewFragment viewFragment = new ViewFragment();
+    public CollectionFragment collectionFragment = CollectionFragment.newInstance();
+    public SettingsFragment settingFragment = new SettingsFragment();
 
-  private BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupTheme();
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.view_button);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        viewFragment = (ViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+//        viewFragment = (ViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
         detector = new SVMDetector(getResources());
         loadSettings();
@@ -113,30 +115,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-  public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-    switch (item.getItemId()) {
-      case R.id.collections_button:
-        current = Current.COLLECTION;
-        transaction.replace(R.id.fragment, collectionFragment).commit();
-        closeCamera();
-        return true;
+        switch (item.getItemId()) {
+            case R.id.collections_button:
+                current = Current.COLLECTION;
+                transaction.replace(R.id.fragment, collectionFragment).commit();
+                closeCamera();
+                return true;
 
-      case R.id.view_button:
-        current = Current.VIEW;
-        transaction.replace(R.id.fragment, viewFragment).commit();
-        if (detectionEnable) startCamera();
-        return true;
+            case R.id.view_button:
+                current = Current.VIEW;
+                transaction.replace(R.id.fragment, viewFragment).commit();
+                if (detectionEnable) startCamera();
+                return true;
 
-      case R.id.settings_button:
-        current = Current.SETTING;
-        transaction.replace(R.id.fragment, settingFragment).addToBackStack(null).commit();
-        closeCamera();
-        return true;
-    }
-    return false;
+            case R.id.settings_button:
+                current = Current.SETTING;
+                transaction.replace(R.id.fragment, settingFragment).addToBackStack(null).commit();
+                closeCamera();
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -173,39 +175,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void setupDetectionPipeline() {
 
         facemesh = new FaceMesh(
-            this,
-            FaceMeshOptions.builder()
-                    .setStaticImageMode(false)
-                    .setRefineLandmarks(true)
-                    .setRunOnGpu(true)
-                    .build());
+                this,
+                FaceMeshOptions.builder()
+                        .setStaticImageMode(false)
+                        .setRefineLandmarks(true)
+                        .setRunOnGpu(true)
+                        .build());
         facemesh.setErrorListener((message, e) -> Log.e("MediaPipe Error", message));
 
         facemesh.setResultListener(
-            faceMeshResult -> {
-                if (!detectionEnable || faceMeshResult.multiFaceLandmarks().isEmpty()) {
-                    return;
-                }
-                if (System.currentTimeMillis() - coolDown < 1000) {
-                    return;
-                }
-                List<NormalizedLandmark> landmarks = faceMeshResult.multiFaceLandmarks().get(0).getLandmarkList();
-                detector.setTransformMatrix(landmarks);
+                faceMeshResult -> {
+                    if (!detectionEnable || faceMeshResult.multiFaceLandmarks().isEmpty()) {
+                        return;
+                    }
+                    if (System.currentTimeMillis() - coolDown < 1000) {
+                        return;
+                    }
+                    List<NormalizedLandmark> landmarks = faceMeshResult.multiFaceLandmarks().get(0).getLandmarkList();
+                    detector.setTransformMatrix(landmarks);
 
-                Enum<Shake> shake = detector.detectShake(landmarks);
-                if (shake != Shake.NONE) return;
+                    Enum<Shake> shake = detector.detectShake(landmarks);
+                    if (shake != Shake.NONE) return;
 
-                if (blinkEnable) {
-                    Enum<Blink> blink = detector.detectBlink(landmarks);
-                    if (blink == Blink.LEFT) triggerLeft();
-                    if (blink == Blink.RIGHT) triggerRight();
-                }
+                    if (blinkEnable) {
+                        Enum<Blink> blink = detector.detectBlink(landmarks);
+                        if (blink == Blink.LEFT) triggerLeft();
+                        if (blink == Blink.RIGHT) triggerRight();
+                    }
 
-                if (eyeCloseEnable) {
-                    boolean eyeClose = detector.detectClose(landmarks);
-                    if (eyeClose) triggerRight();
-                }
-            });
+                    if (eyeCloseEnable) {
+                        boolean eyeClose = detector.detectClose(landmarks);
+                        if (eyeClose) triggerRight();
+                    }
+                });
 
         if (detectionEnable) {
             startCamera();
@@ -266,4 +268,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         config.locale = myLocale;
         this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
     }
+
+    protected void setupTheme(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = sharedPreferences.getString("theme_preference", "");
+        Log.i("TAG", "setupTheme: "+theme);
+
+        if (theme.equals("dark")) {
+            Log.i("TAG", "dark");
+            setTheme(R.style.DarkTheme);
+        } else if (theme.equals("light")) {
+            Log.i("TAG", "light");
+            setTheme(R.style.LightTheme);
+        } else {
+            Log.i("TAG", "auto");
+            setTheme(R.style.AppTheme);
+        }
+    }
+
 }

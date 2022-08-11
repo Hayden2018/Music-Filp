@@ -42,4 +42,5 @@
     <string name="blink_sensitivity_title">Sensitivity</string>
     <string name="eye_closing_title">Eye Closing</string>
     <string name="eye_closing_duration_title">Duration (x 0.1 seconds)</string>
+    <string name="card_content_description">Document</string>
 </resources>
