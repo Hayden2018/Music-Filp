@@ -13,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
@@ -244,12 +245,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
         detector.setCloseDuration(eyeCloseDuration);
 
-        String lang = sharedPreferences.getString("language_preference", "");
-        Log.i("TAG", lang);
 
     }
 
-    protected void setLocale(){
+    private void setLocale(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String lang = sharedPreferences.getString("language_preference", "");
         Log.i("TAG", "setContentView: "+lang);
@@ -257,13 +256,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Locale myLocale;
         if (lang.equals("zh-rTW")){
             myLocale = Locale.TAIWAN;
-        } else {
+        } else if (lang.equals("en")){
             myLocale = new Locale(lang);
+        } else {
+            return;
         }
         Locale.setDefault(myLocale);
         Configuration config = new Configuration();
         config.locale = myLocale;
         this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
     }
-
 }

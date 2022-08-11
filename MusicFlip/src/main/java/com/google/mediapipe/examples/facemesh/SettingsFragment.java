@@ -117,14 +117,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         ListPreference localePref = findPreference("language_preference");
         localePref.setOnPreferenceChangeListener((preference, newVal) -> {
-            String lang = newVal.toString();
             Intent refresh = new Intent(getActivity(), MainActivity.class);
-
             startActivity(refresh);
             getActivity().finish();
             return true;
         });
 
+//        ListPreference themePref = findPreference("theme_preference");
+//        themePref.setOnPreferenceChangeListener(((preference, newValue) -> {
+//
+//            return true;
+//        }));
 
     }
 

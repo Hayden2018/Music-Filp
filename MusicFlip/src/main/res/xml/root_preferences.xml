@@ -55,7 +55,8 @@
             android:key="theme_preference"
             android:title="@string/theme_title"
             app:icon="@drawable/ic_theme"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue=""/>
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
