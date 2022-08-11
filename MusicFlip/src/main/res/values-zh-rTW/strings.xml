@@ -31,9 +31,9 @@
     <string name="cantonese">中文</string>
     <string name="theme_light">白天模式</string>
     <string name="theme_dark">夜晚模式</string>
-    <string name="about_app_content">本應用程式幫助你在演奏期間輕鬆將樂譜翻頁﹐你只需要做出單眼動作或搖頭動作(需在設定中開啟此功能)就可以免去手動翻樂譜的麻煩﹐讓本應用程式自動為你翻去上(下)一頁！</string>
-    <string name="get_help_content"><![CDATA[<u>眨眼：</u><br>下一頁：眨右眼<br>上一頁：眨左眼<br><br><u>搖頭：</u><br>下一頁：搖向右邊<br>上一頁：搖向左邊]]></string>
-    <string name="share_content">一起來用這個可以幫助你在演奏中僅用眨眼或搖頭就可以輕鬆翻頁的應用程式吧！你可以在以下網址中下載 Music Flip：https://www.google.com </string>
+    <string name="about_app_content">本應用程式幫助你在演奏期間輕鬆將樂譜翻頁﹐你只需要做出合眼動作或單眼動作(可在設定中選擇其中一項)就可以免去手動翻樂譜的麻煩﹐讓本應用程式自動為你翻去上(下)一頁！</string>
+    <string name="get_help_content"><![CDATA[<u>合眼：</u><br>下一頁：合上你的雙眼（時間長度*0.1）秒<br><br><u>眨眼：</u><br>下一頁：眨右眼<br>上一頁：眨左眼]]></string>
+    <string name="share_content">一起來用這個可以幫助你在演奏中僅用合眼或眨眼就可以輕鬆翻頁的應用程式吧！你可以在以下網址中下載 Music Flip：https://www.google.com <!--TODO: app store link--> </string>
     <string name="theme_auto">自動</string>
     <string name="ai_detector">人工智能</string>
     <string name="blinking_title">眨眼</string>
@@ -44,7 +44,7 @@
 
     <!--Notification-->
     <string name="notify_title">是時候練習了！</string>
-    <string name="notify_content">跟MusicFlip一起繼續你的音樂之旅。</string>
+    <string name="notify_content">跟Music Flip一起繼續你的音樂之旅。</string>
     <string name="notification_channel_name">練習提示</string>
 
 </resources>
