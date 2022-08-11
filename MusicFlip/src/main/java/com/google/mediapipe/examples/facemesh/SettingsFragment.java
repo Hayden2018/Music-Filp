@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -63,6 +66,34 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 return true;
             });
         }
+
+        SwitchPreferenceCompat blinkPref = findPreference("blink_preference");
+        SwitchPreferenceCompat eyeClosePref = findPreference("eye_closing_preference");
+
+        eyeClosePref.setOnPreferenceChangeListener((preference, newVal) -> {
+            boolean value = (Boolean) newVal;
+
+            if (value) {
+                Log.i("TAG", "true");
+                blinkPref.setChecked(false);
+            } else {
+                Log.i("TAG", "false");
+                blinkPref.setChecked(true);
+            }
+            return true;
+        });
+
+
+        blinkPref.setOnPreferenceChangeListener((preference, newVal) -> {
+            boolean value = (Boolean) newVal;
+
+            if (value) {
+                eyeClosePref.setChecked(false);
+            } else {
+                eyeClosePref.setChecked(true);
+            }
+            return true;
+        });
     }
 
     @Override

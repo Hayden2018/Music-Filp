@@ -10,6 +10,21 @@
         <SwitchPreferenceCompat
             android:dependency="ai_detector_preference"
             android:defaultValue="true"
+            android:key="eye_closing_preference"
+            android:title="@string/eye_closing_title" />
+
+        <SeekBarPreference
+            android:dependency="eye_closing_preference"
+            android:max="20"
+            android:min="5"
+            android:defaultValue="10"
+            android:key="eye_closing_duration_preference"
+            app:showSeekBarValue="true"
+            android:title="@string/eye_closing_duration_title" />
+
+        <SwitchPreferenceCompat
+            android:dependency="ai_detector_preference"
+            android:defaultValue="false"
             android:key="blink_preference"
             android:title="@string/blinking_title" />
 
@@ -20,21 +35,6 @@
             android:key="blink_sensitivity_preference"
             app:showSeekBarValue="true"
             android:title="@string/blink_sensitivity_title" />
-
-        <SwitchPreferenceCompat
-            android:dependency="ai_detector_preference"
-            android:defaultValue="true"
-            android:key="eye_closing_preference"
-            android:title="@string/eye_closing_title" />
-
-        <SeekBarPreference
-            android:dependency="eye_closing_preference"
-            android:max="10"
-            android:min="1"
-            android:defaultValue="2"
-            android:key="eye_closing_duration_preference"
-            app:showSeekBarValue="true"
-            android:title="@string/eye_closing_duration_title" />
 
     </PreferenceCategory>
 
