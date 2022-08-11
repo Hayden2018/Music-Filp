@@ -47,5 +47,6 @@
     <!--Notification-->
     <string name="notify_title">It\'s time to practice!</string>
     <string name="notify_content">Continue with your music journey with MusicFlip.</string>
+    <string name="notification_channel_name">Practice reminder</string>
 
 </resources>

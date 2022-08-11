@@ -45,5 +45,6 @@
     <!--Notification-->
     <string name="notify_title">是時候練習了！</string>
     <string name="notify_content">跟MusicFlip一起繼續你的音樂之旅。</string>
+    <string name="notification_channel_name">練習提示</string>
 
 </resources>

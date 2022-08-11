@@ -1,6 +1,7 @@
 package com.google.mediapipe.examples.facemesh;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -127,6 +128,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         themePref.setOnPreferenceChangeListener(((preference, newValue) -> {
             startActivity(new Intent(getActivity(), MainActivity.class));
             getActivity().finish();
+            return true;
+        }));
+
+        SwitchPreferenceCompat notificationPref = findPreference("notification_preference");
+        notificationPref.setOnPreferenceChangeListener(((preference, newValue) -> {
+            boolean value = (Boolean) newValue;
+            NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            if (value){
+                mNotificationManager.cancel(0);
+            } else {
+                activity.setupNotification();
+            }
             return true;
         }));
 

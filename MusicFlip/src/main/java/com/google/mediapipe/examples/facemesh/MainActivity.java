@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         detector = new SVMDetector(getResources());
         loadSettings();
-        myAlarm();
+        setupNotification();
 
         setupDetectionPipeline();
     }
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-    public void myAlarm() {
+    public void setupNotification() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 20);
