@@ -104,7 +104,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             return true;
         });
 
-
         blinkPref.setOnPreferenceChangeListener((preference, newVal) -> {
             boolean value = (Boolean) newVal;
 
@@ -116,32 +115,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             return true;
         });
 
-
         ListPreference localePref = findPreference("language_preference");
         localePref.setOnPreferenceChangeListener((preference, newVal) -> {
-
-//            Locale locale = new Locale(newVal.toString());
-//            Locale.setDefault(locale);
-//
-//            Configuration config = new Configuration();
-//            config.locale = locale;
-//
-//            getActivity().getBaseContext().getResources().updateConfiguration(config,
-//                    getActivity().getBaseContext().getResources().getDisplayMetrics());
             String lang = newVal.toString();
-            activity.setLocale(lang);
+            Intent refresh = new Intent(getActivity(), MainActivity.class);
 
-
-//            Locale locale = new Locale(newVal.toString());
-//            Locale.setDefault(locale);
-//            Configuration config = new Configuration();
-//            config.locale = locale;
-//            getActivity().getApplicationContext().getResources().updateConfiguration(config, null);
-//            getActivity().finish();
-//            startActivity(getActivity().getIntent());
-
+            startActivity(refresh);
+            getActivity().finish();
             return true;
         });
+
+
     }
 
     @Override

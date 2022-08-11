@@ -107,22 +107,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void setContentView(int layoutResID) {
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String lang = sharedPreferences.getString("language_preference", "");
-        Log.i("TAG", "setContentView: "+lang);
-
-        Locale myLocale;
-        if (lang.equals("zh-rTW")){
-            myLocale = Locale.TAIWAN;
-        } else {
-            myLocale = new Locale(lang);
-        }
-        Locale.setDefault(myLocale);
-        Configuration config = new Configuration();
-        config.locale = myLocale;
-        this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
-
+        setLocale();
         super.setContentView(layoutResID);
     }
 
@@ -264,23 +249,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
-    protected void setLocale(String lang){
+    protected void setLocale(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String lang = sharedPreferences.getString("language_preference", "");
+        Log.i("TAG", "setContentView: "+lang);
+
         Locale myLocale;
         if (lang.equals("zh-rTW")){
             myLocale = Locale.TAIWAN;
         } else {
             myLocale = new Locale(lang);
         }
-
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, MainActivity.class);
-
-        startActivity(refresh);
-        finish();
+        Locale.setDefault(myLocale);
+        Configuration config = new Configuration();
+        config.locale = myLocale;
+        this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
     }
 
 }
