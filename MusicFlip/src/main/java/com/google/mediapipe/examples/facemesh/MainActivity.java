@@ -228,9 +228,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         detector.setSensitivity(blinkSensitivity);
 
         eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
-        // TODO: adjust to correct scale (x0.1 seconds)
         eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
-        detector.setCloseDuration(eyeCloseDuration * 5);
+        detector.setCloseDuration(eyeCloseDuration);
     }
 
 }
