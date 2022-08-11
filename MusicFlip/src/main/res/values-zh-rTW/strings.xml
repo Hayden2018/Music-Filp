@@ -42,4 +42,8 @@
     <string name="eye_closing_duration_title">時間長度 (x 0.1 秒)</string>
     <string name="card_content_description">文件</string>
 
+    <!--Notification-->
+    <string name="notify_title">是時候練習了！</string>
+    <string name="notify_content">跟MusicFlip一起繼續你的音樂之旅。</string>
+
 </resources>

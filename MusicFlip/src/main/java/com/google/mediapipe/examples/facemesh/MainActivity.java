@@ -1,5 +1,7 @@
 package com.google.mediapipe.examples.facemesh;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +31,8 @@ import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutions.facemesh.FaceMesh;
 import com.google.mediapipe.solutions.facemesh.FaceMeshOptions;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -92,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         detector = new SVMDetector(getResources());
         loadSettings();
+        myAlarm();
 
         setupDetectionPipeline();
     }
@@ -250,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
-    private void setLocale(){
+    public void setLocale(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String lang = sharedPreferences.getString("language_preference", "");
         Log.i("TAG", "setContentView: "+lang);
@@ -284,6 +289,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Log.i("TAG", "auto");
             setTheme(R.style.AppTheme);
         }
+    }
+
+    public void myAlarm() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTime().compareTo(new Date()) < 0)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+
     }
 
 }
