@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#1976d2</color>
+    <color name="colorPrimaryDark">#0d46a1</color>
+    <color name="colorAccent">#00aeb4</color>
+    <color name="darkColorAccent">#1976d2</color>
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="lighterGrey">#DDDDDD</color>
     <color name="lightGrey">#AAAAAA</color>
-    <color name="darkColorAccent">#008577</color>
     <color name="textGreyColor">#333333</color>
     <color name="cameraIconGrey">#555555</color>
+
     <color name="cameraOnVisualHint">#1EDA66</color>
     <color name="cameraOffVisualHint">#D83E3E</color>
 </resources>
+
+<!--<color name="colorPrimary">#008577</color>-->
+<!--<color name="colorPrimaryDark">#00574B</color>-->
+<!--<color name="colorAccent">#D81B60</color>-->
+<!--<color name="darkColorAccent">#008577</color>-->
