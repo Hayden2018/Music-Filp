@@ -1,21 +1,14 @@
 package com.google.mediapipe.examples.facemesh;
 
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.provider.Settings;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.preference.PreferenceManager;
-
-import java.util.Locale;
 
 class NotificationHelper {
 
@@ -26,10 +19,9 @@ class NotificationHelper {
         mContext = context;
     }
 
-    void createNotification()
-    {
+    void createNotification() {
 
-        Intent intent = new Intent(mContext , MainActivity.class);
+        Intent intent = new Intent(mContext, MainActivity.class);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -48,8 +40,7 @@ class NotificationHelper {
 
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-        {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, mContext.getString(R.string.notification_channel_name), importance);
             notificationChannel.enableLights(true);

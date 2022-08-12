@@ -2,12 +2,9 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,18 +12,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutions.facemesh.FaceMesh;
@@ -37,7 +29,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/** Main activity of MediaPipe Face Mesh app. */
+/**
+ * Main activity of MediaPipe Face Mesh app.
+ */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private FaceMesh facemesh;
@@ -139,11 +133,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 current = Current.VIEW;
                 transaction.replace(R.id.fragment, viewFragment).commit();
                 if (detectionEnable) startCamera();
-
-//                Bundle bundle = new Bundle();
-//                bundle.putBoolean("CAMERA_ON", cameraOn);
-//                viewFragment.setArguments(bundle);
-
                 return true;
 
             case R.id.settings_button:
@@ -266,15 +255,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         soundEffectEnable = sharedPreferences.getBoolean("sound_effect_preference", true);
     }
 
-    public void setLocale(){
+    public void setLocale() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String lang = sharedPreferences.getString("language_preference", "");
-        Log.i("TAG", "setContentView: "+lang);
 
         Locale myLocale;
-        if (lang.equals("zh-rTW")){
+        if (lang.equals("zh-rTW")) {
             myLocale = Locale.TAIWAN;
-        } else if (lang.equals("en")){
+        } else if (lang.equals("en")) {
             myLocale = new Locale(lang);
         } else {
             return;
@@ -285,19 +273,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
     }
 
-    protected void setupTheme(){
+    protected void setupTheme() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = sharedPreferences.getString("theme_preference", "");
-        Log.i("TAG", "setupTheme: "+theme);
 
         if (theme.equals("dark")) {
-            Log.i("TAG", "dark");
             setTheme(R.style.DarkTheme);
         } else if (theme.equals("light")) {
-            Log.i("TAG", "light");
             setTheme(R.style.LightTheme);
         } else {
-            Log.i("TAG", "auto");
             setTheme(R.style.AppTheme);
         }
     }
@@ -322,13 +306,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
-    protected boolean getCameraOn(){
-        if (cameraOn) Log.i("TAG", "true");
-        else Log.i("TAG", "false");
+    protected boolean getCameraOn() {
         return cameraOn;
     }
 
-    protected boolean getSoundEffectEnable(){
+    protected boolean getSoundEffectEnable() {
         return soundEffectEnable;
     }
 

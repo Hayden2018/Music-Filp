@@ -180,7 +180,7 @@ public class ViewFragment extends Fragment {
         }
     }
 
-    protected void setCameraOnOffText(String value){
+    protected void setCameraOnOffText(String value) {
         if (textViewCameraOnOff != null) {
             Log.i("TAG", "textview: not null");
             textViewCameraOnOff.setText(value);
@@ -188,12 +188,12 @@ public class ViewFragment extends Fragment {
         Log.i("TAG", "textview: null");
     }
 
-    protected void setCameraOnOffColor(int color){
+    protected void setCameraOnOffColor(int color) {
         if (textViewCameraOnOff != null) textViewCameraOnOff.setTextColor(color);
     }
 
-    private void setVisualHint(boolean cameraOn){
-        if (cameraOn){
+    private void setVisualHint(boolean cameraOn) {
+        if (cameraOn) {
             Log.i("TAG", "setHint: true");
             setCameraOnOffText(getResources().getString(R.string.camera_on));
             setCameraOnOffColor(getResources().getColor(R.color.cameraOnVisualHint));

@@ -8,84 +8,84 @@
             android:title="@string/ai_detector" />
 
         <SwitchPreferenceCompat
-            android:dependency="ai_detector_preference"
             android:defaultValue="true"
+            android:dependency="ai_detector_preference"
             android:key="eye_closing_preference"
             android:title="@string/eye_closing_title" />
 
         <SeekBarPreference
+            android:defaultValue="10"
             android:dependency="eye_closing_preference"
+            android:key="eye_closing_duration_preference"
             android:max="20"
             android:min="5"
-            android:defaultValue="10"
-            android:key="eye_closing_duration_preference"
-            app:showSeekBarValue="true"
-            android:title="@string/eye_closing_duration_title" />
+            android:title="@string/eye_closing_duration_title"
+            app:showSeekBarValue="true" />
 
         <SwitchPreferenceCompat
-            android:dependency="ai_detector_preference"
             android:defaultValue="false"
+            android:dependency="ai_detector_preference"
             android:key="blink_preference"
             android:title="@string/blinking_title" />
 
         <SeekBarPreference
-            android:dependency="blink_preference"
-            android:max="100"
             android:defaultValue="50"
+            android:dependency="blink_preference"
             android:key="blink_sensitivity_preference"
-            app:showSeekBarValue="true"
-            android:title="@string/blink_sensitivity_title" />
+            android:max="100"
+            android:title="@string/blink_sensitivity_title"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/general_header">
         <!-- TODO: add summary -->
         <ListPreference
+            android:defaultValue=""
             android:entries="@array/language_entries"
             android:entryValues="@array/language_values"
             android:key="language_preference"
             android:title="@string/language_title"
             app:icon="@drawable/ic_language"
-            app:useSimpleSummaryProvider="true"
-            android:defaultValue=""/>
+            app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             android:entries="@array/theme_entries"
             android:entryValues="@array/theme_values"
             android:key="theme_preference"
             android:title="@string/theme_title"
+            app:defaultValue=""
             app:icon="@drawable/ic_theme"
-            app:useSimpleSummaryProvider="true"
-            app:defaultValue=""/>
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:icon="@drawable/ic_sound_effect"
             app:key="sound_effect_preference"
-            app:title="@string/sound_effect_title"/>
+            app:title="@string/sound_effect_title" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
-            app:icon="@drawable/ic_notification"
             android:key="notification_preference"
-            android:title="@string/notification_title" />
+            android:title="@string/notification_title"
+            app:icon="@drawable/ic_notification" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/app_header">
         <Preference
             android:key="get_help_preference"
-            app:icon="@drawable/ic_get_help"
-            android:title="@string/get_help_title" />
+            android:title="@string/get_help_title"
+            app:icon="@drawable/ic_get_help" />
 
         <Preference
             android:key="share_preference"
-            app:icon="@drawable/ic_share"
-            android:title="@string/share_title" />
+            android:title="@string/share_title"
+            app:icon="@drawable/ic_share" />
 
         <Preference
             android:key="about_app_preference"
-            app:icon="@drawable/ic_about_app"
-            android:title="@string/about_app_title" />
+            android:title="@string/about_app_title"
+            app:icon="@drawable/ic_about_app" />
     </PreferenceCategory>
 
 </PreferenceScreen>

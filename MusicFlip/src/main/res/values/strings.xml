@@ -21,6 +21,8 @@
     <string name="camera_on_off_title">Front camera:　</string>
     <string name="camera_off">OFF</string>
     <string name="camera_on">ON</string>
+    <string name="floating_action_button_description">Button for adding new document</string>
+    <string name="pdf">.pdf</string>
 
     <!-- Preference -->
     <string name="functionalities_header">Functionalities</string>

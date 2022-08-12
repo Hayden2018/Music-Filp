@@ -21,15 +21,15 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     }
 
-    private void setLocale(Context context){
+    private void setLocale(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String lang = sharedPreferences.getString("language_preference", "");
-        Log.i("TAG", "setContentView: "+lang);
+        Log.i("TAG", "setContentView: " + lang);
 
         Locale myLocale;
-        if (lang.equals("zh-rTW")){
+        if (lang.equals("zh-rTW")) {
             myLocale = Locale.TAIWAN;
-        } else if (lang.equals("en")){
+        } else if (lang.equals("en")) {
             myLocale = new Locale(lang);
         } else {
             return;

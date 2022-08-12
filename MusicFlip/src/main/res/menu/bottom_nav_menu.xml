@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/collections_button"
-        android:title="@string/collection_button"
-        android:icon="@drawable/ic_collections"/>
+        android:icon="@drawable/ic_collections"
+        android:title="@string/collection_button" />
     <item
         android:id="@+id/view_button"
-        android:title="@string/view_button"
-        android:icon="@drawable/ic_viewing"/>
+        android:icon="@drawable/ic_viewing"
+        android:title="@string/view_button" />
     <item
         android:id="@+id/settings_button"
-        android:title="@string/setting_button"
-        android:icon="@drawable/ic_setting"/>
+        android:icon="@drawable/ic_setting"
+        android:title="@string/setting_button" />
 </menu>

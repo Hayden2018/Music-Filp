@@ -15,6 +15,8 @@
     <string name="collections_title">文件</string>
     <string name="view_title">Music Flip</string>
     <string name="setting_title">設定</string>
+    <string name="floating_action_button_description">添加檔案按鈕</string>
+    <string name="pdf">.pdf</string>
 
     <!-- Preference Titles -->
     <string name="functionalities_header">功能設定</string>
