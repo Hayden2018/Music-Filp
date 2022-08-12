@@ -46,6 +46,7 @@
     <string name="blink_sensitivity_title">Sensitivity</string>
     <string name="eye_closing_title">Eye Closing</string>
     <string name="eye_closing_duration_title">Duration (x 0.1 seconds)</string>
+    <string name="sound_effect_title">Sound Effect</string>
 
     <!--Notification-->
     <string name="notify_title">It\'s time to practice!</string>

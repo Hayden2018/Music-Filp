@@ -148,7 +148,7 @@ public class ViewFragment extends Fragment {
             Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
             page.eraseColor(Color.WHITE);
             currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-            flipSound.start();
+            if (activity.getSoundEffectEnable()) flipSound.start();
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromRight);
@@ -168,7 +168,7 @@ public class ViewFragment extends Fragment {
             Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
             page.eraseColor(Color.WHITE);
             currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-            flipSound.start();
+            if (activity.getSoundEffectEnable()) flipSound.start();
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromLeft);

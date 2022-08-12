@@ -44,6 +44,7 @@
     <string name="camera_on_off_title">前置鏡頭：</string>
     <string name="camera_off">已關閉</string>
     <string name="camera_on">開啟中</string>
+    <string name="sound_effect_title">聲效</string>
 
     <!--Notification-->
     <string name="notify_title">是時候練習了！</string>

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private boolean detectionEnable = true;
     private boolean blinkEnable = true;
     private boolean eyeCloseEnable = true;
+    private boolean soundEffectEnable = true;
 
     private static final int DEFAULT_BLINK_SENSITIVITY = 50;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
@@ -261,6 +262,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
         eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
         detector.setCloseDuration(eyeCloseDuration);
+
+        soundEffectEnable = sharedPreferences.getBoolean("sound_effect_preference", true);
     }
 
     public void setLocale(){
@@ -319,10 +322,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
-    public boolean getCameraOn(){
+    protected boolean getCameraOn(){
         if (cameraOn) Log.i("TAG", "true");
         else Log.i("TAG", "false");
         return cameraOn;
+    }
+
+    protected boolean getSoundEffectEnable(){
+        return soundEffectEnable;
     }
 
 }

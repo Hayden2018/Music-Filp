@@ -59,6 +59,12 @@
             app:defaultValue=""/>
 
         <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/ic_sound_effect"
+            app:key="sound_effect_preference"
+            app:title="@string/sound_effect_title"/>
+
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             app:icon="@drawable/ic_notification"
             android:key="notification_preference"
