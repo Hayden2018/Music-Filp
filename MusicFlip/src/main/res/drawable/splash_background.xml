@@ -4,6 +4,8 @@
     <item
         android:width="160dp"
         android:height="160dp"
-        android:drawable="@drawable/ic_camera"
+        android:drawable="@drawable/ic_launcher"
         android:gravity="center" />
+    <item
+        android:drawable=""/>
 </layer-list>
