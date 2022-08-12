@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="customColorValue">@color/cameraIconGrey</item>
     </style>
 
     <style name="LightTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
@@ -13,6 +15,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="customColorValue">@color/cameraIconGrey</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
@@ -21,6 +25,7 @@
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/darkColorAccent</item>
 
+        <item name="customColorValue">@color/white</item>
         <item name="android:background">@color/black</item>
         <item name="android:textColor">@color/white</item>
         <item name="colorControlNormal">@color/white</item>

@@ -41,6 +41,9 @@
     <string name="eye_closing_title">合眼</string>
     <string name="eye_closing_duration_title">時間長度 (x 0.1 秒)</string>
     <string name="card_content_description">文件</string>
+    <string name="camera_on_off_title">前置鏡頭：</string>
+    <string name="camera_off">已關閉</string>
+    <string name="camera_on">開啟中</string>
 
     <!--Notification-->
     <string name="notify_title">是時候練習了！</string>

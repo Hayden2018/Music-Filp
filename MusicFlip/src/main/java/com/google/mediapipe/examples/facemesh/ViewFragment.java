@@ -1,5 +1,6 @@
 package com.google.mediapipe.examples.facemesh;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +43,17 @@ public class ViewFragment extends Fragment {
 
     private MediaPlayer flipSound;
 
+    TextView textViewCameraOnOff;
+    private MainActivity activity;
+
     public ViewFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = (MainActivity) getActivity();
     }
 
     @Override
@@ -54,12 +65,18 @@ public class ViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         flipSound = MediaPlayer.create(getActivity(), R.raw.page_flip);
-        return inflater.inflate(R.layout.fragment_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_view, container, false);
+        textViewCameraOnOff = view.findViewById(R.id.camera_on_off);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (activity.getCameraOn()) Log.i("TAG", "viewCreated: true;");
+        else Log.i("TAG", "viewCreated: false;");
+        setVisualHint(activity.getCameraOn());
 
         fromRight = AnimationUtils.loadAnimation(getActivity(), R.anim.from_right);
         fromLeft = AnimationUtils.loadAnimation(getActivity(), R.anim.from_left);
@@ -160,6 +177,30 @@ public class ViewFragment extends Fragment {
                 TextView t = getView().findViewById(R.id.page_num);
                 t.setText(String.format("%d / %d", p + 1, renderer.getPageCount()));
             });
+        }
+    }
+
+    protected void setCameraOnOffText(String value){
+        if (textViewCameraOnOff != null) {
+            Log.i("TAG", "textview: not null");
+            textViewCameraOnOff.setText(value);
+        }
+        Log.i("TAG", "textview: null");
+    }
+
+    protected void setCameraOnOffColor(int color){
+        if (textViewCameraOnOff != null) textViewCameraOnOff.setTextColor(color);
+    }
+
+    private void setVisualHint(boolean cameraOn){
+        if (cameraOn){
+            Log.i("TAG", "setHint: true");
+            setCameraOnOffText(getResources().getString(R.string.camera_on));
+            setCameraOnOffColor(getResources().getColor(R.color.cameraOnVisualHint));
+        } else {
+            Log.i("TAG", "setHing: false");
+            setCameraOnOffText(getResources().getString(R.string.camera_off));
+            setCameraOnOffColor(getResources().getColor(R.color.cameraOffVisualHint));
         }
     }
 }

@@ -18,6 +18,9 @@
     <string name="view_title">Music Flip</string>
     <string name="setting_title">Settings</string>
     <string name="card_content_description">Document</string>
+    <string name="camera_on_off_title">Front camera:　</string>
+    <string name="camera_off">OFF</string>
+    <string name="camera_on">ON</string>
 
     <!-- Preference -->
     <string name="functionalities_header">Functionalities</string>

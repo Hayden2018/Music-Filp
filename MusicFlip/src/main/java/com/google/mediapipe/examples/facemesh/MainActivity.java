@@ -23,6 +23,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private static final int DEFAULT_EYE_CLOSE_DURATION = 2;
     private int eyeCloseDuration = DEFAULT_EYE_CLOSE_DURATION;
+
+    private boolean cameraOn = false;
 
     protected long coolDown = System.currentTimeMillis();
 
@@ -135,6 +138,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 current = Current.VIEW;
                 transaction.replace(R.id.fragment, viewFragment).commit();
                 if (detectionEnable) startCamera();
+
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("CAMERA_ON", cameraOn);
+//                viewFragment.setArguments(bundle);
+
                 return true;
 
             case R.id.settings_button:
@@ -229,12 +237,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 600,
                 800
         );
+        cameraOn = true;
     }
 
     private void closeCamera() {
         if (cameraInput != null) {
             cameraInput.close();
             cameraInput = null;
+            cameraOn = false;
         }
     }
 
@@ -251,8 +261,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
         eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
         detector.setCloseDuration(eyeCloseDuration);
-
-
     }
 
     public void setLocale(){
@@ -309,6 +317,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
+    }
+
+    public boolean getCameraOn(){
+        if (cameraOn) Log.i("TAG", "true");
+        else Log.i("TAG", "false");
+        return cameraOn;
     }
 
 }
