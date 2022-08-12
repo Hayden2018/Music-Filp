@@ -32,7 +32,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle(R.string.setting_title);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

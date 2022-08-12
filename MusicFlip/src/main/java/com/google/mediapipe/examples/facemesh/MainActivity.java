@@ -127,18 +127,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 current = Current.COLLECTION;
                 transaction.replace(R.id.fragment, collectionFragment).commit();
                 closeCamera();
+                setTitle(R.string.collections_title);
                 return true;
 
             case R.id.view_button:
                 current = Current.VIEW;
                 transaction.replace(R.id.fragment, viewFragment).commit();
                 if (detectionEnable) startCamera();
+                setTitle(R.string.view_title);
                 return true;
 
             case R.id.settings_button:
                 current = Current.SETTING;
                 transaction.replace(R.id.fragment, settingFragment).addToBackStack(null).commit();
                 closeCamera();
+                setTitle(R.string.setting_title);
                 return true;
         }
         return false;

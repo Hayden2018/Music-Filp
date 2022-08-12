@@ -56,7 +56,6 @@ public class CollectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.collections_title);
     }
 
     @Override
