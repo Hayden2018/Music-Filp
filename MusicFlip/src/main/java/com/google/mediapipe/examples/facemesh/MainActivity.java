@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private CameraInput cameraInput;
     private SVMDetector detector;
 
-    private boolean detectionEnable = true;
-    private boolean blinkEnable = true;
-    private boolean knockEnable = true;
-    private boolean soundEffectEnable = true;
+    public boolean detectionEnable = true;
+    public boolean blinkEnable = false;
+    public boolean knockEnable = true;
+    public boolean soundEffectEnable = true;
 
     private static final int DEFAULT_BLINK_SENSITIVITY = 50;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
@@ -49,9 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private static final int DEFAULT_KNOCK_SENSITIVITY = 50;
     private float knockSensitivity = DEFAULT_BLINK_SENSITIVITY;
 
-    private boolean cameraOn = false;
-
-    protected long coolDown = System.currentTimeMillis();
+    private long coolDown = System.currentTimeMillis();
 
     public enum Shake {
         LEFT,
@@ -236,14 +234,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 600,
                 800
         );
-        cameraOn = true;
     }
 
     private void closeCamera() {
         if (cameraInput != null) {
             cameraInput.close();
             cameraInput = null;
-            cameraOn = false;
         }
     }
 
@@ -313,10 +309,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
-    }
-
-    protected boolean getCameraOn() {
-        return cameraOn;
     }
 
     protected boolean getSoundEffectEnable() {

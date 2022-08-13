@@ -1,5 +1,6 @@
 package com.google.mediapipe.examples.facemesh;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import android.os.ParcelFileDescriptor;
@@ -42,8 +45,6 @@ public class ViewFragment extends Fragment {
     protected int p = 0;
 
     private MediaPlayer flipSound;
-
-    TextView textViewCameraOnOff;
     private MainActivity activity;
 
     public ViewFragment() {
@@ -64,18 +65,41 @@ public class ViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         flipSound = MediaPlayer.create(getActivity(), R.raw.page_flip);
-        View view = inflater.inflate(R.layout.fragment_view, container, false);
-        textViewCameraOnOff = view.findViewById(R.id.camera_on_off);
-        return view;
+        return inflater.inflate(R.layout.fragment_view, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (activity.getCameraOn()) Log.i("TAG", "viewCreated: true;");
-        else Log.i("TAG", "viewCreated: false;");
-        setVisualHint(activity.getCameraOn());
+        View root = getView();
+        TextView detectorText = root.findViewById(R.id.detector_state);
+
+        if (current == Uri.EMPTY) {
+            detectorText.setVisibility(View.GONE);
+        }
+        else if (activity.detectionEnable) {
+            detectorText.setTextColor(Color.parseColor("#0A880A"));
+            if (activity.blinkEnable) detectorText.setText("Blink Detection On");
+            if (activity.knockEnable) detectorText.setText("Knock Detection On");
+        }
+        else {
+            detectorText.setTextColor(Color.parseColor("#3F3F3F"));
+            detectorText.setText("Auto Flip Disabled");
+            new android.os.Handler().postDelayed(() -> {
+                detectorText.setVisibility(View.GONE);
+                TextView pageNum = root.findViewById(R.id.page_num);
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) pageNum.getLayoutParams();
+                params.setMargins(0, 0, 0, 0);
+                pageNum.setLayoutParams(params);
+
+                ConstraintLayout topSection = root.findViewById(R.id.view_top);
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(topSection);
+                constraintSet.connect(pageNum.getId(), ConstraintSet.END, topSection.getId(), ConstraintSet.END, 0);
+                constraintSet.applyTo(topSection);
+            }, 3500);
+        }
 
         fromRight = AnimationUtils.loadAnimation(getActivity(), R.anim.from_right);
         fromLeft = AnimationUtils.loadAnimation(getActivity(), R.anim.from_left);
@@ -94,7 +118,6 @@ public class ViewFragment extends Fragment {
         });
 
         if (current != Uri.EMPTY) {
-            View root = getView();
             root.findViewById(R.id.blank_image).setVisibility(View.GONE);
             root.findViewById(R.id.blank_info).setVisibility(View.GONE);
             root.findViewById(R.id.docu_view).setVisibility(View.VISIBLE);
@@ -176,30 +199,6 @@ public class ViewFragment extends Fragment {
                 TextView t = getView().findViewById(R.id.page_num);
                 t.setText(String.format("%d / %d", p + 1, renderer.getPageCount()));
             });
-        }
-    }
-
-    protected void setCameraOnOffText(String value) {
-        if (textViewCameraOnOff != null) {
-            Log.i("TAG", "textview: not null");
-            textViewCameraOnOff.setText(value);
-        }
-        Log.i("TAG", "textview: null");
-    }
-
-    protected void setCameraOnOffColor(int color) {
-        if (textViewCameraOnOff != null) textViewCameraOnOff.setTextColor(color);
-    }
-
-    private void setVisualHint(boolean cameraOn) {
-        if (cameraOn) {
-            Log.i("TAG", "setHint: true");
-            setCameraOnOffText(getResources().getString(R.string.camera_on));
-            setCameraOnOffColor(getResources().getColor(R.color.cameraOnVisualHint));
-        } else {
-            Log.i("TAG", "setHing: false");
-            setCameraOnOffText(getResources().getString(R.string.camera_off));
-            setCameraOnOffColor(getResources().getColor(R.color.cameraOffVisualHint));
         }
     }
 }

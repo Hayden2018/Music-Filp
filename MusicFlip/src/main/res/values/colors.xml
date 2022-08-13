@@ -12,7 +12,7 @@
     <color name="textGreyColor">#333333</color>
     <color name="cameraIconGrey">#555555</color>
     <color name="backgroundBlack">#333333</color>
+    <color name="transparent">#00000000</color>
 
-    <color name="cameraOnVisualHint">#1EDA66</color>
-    <color name="cameraOffVisualHint">#D83E3E</color>
+    <color name="detectionEnable">#1EDA66</color>
 </resources>

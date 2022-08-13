@@ -155,8 +155,8 @@ public class SVMDetector {
         float rx = landmarks.get(1).getX() - bx;
         float rz = landmarks.get(1).getZ() - bz;
 
-        if (rx / rz > 0.3f) return MainActivity.Shake.RIGHT;
-        if (rx / rz < -0.3f) return MainActivity.Shake.LEFT;
+        if (rx / rz > 0.2f) return MainActivity.Shake.RIGHT;
+        if (rx / rz < -0.2f) return MainActivity.Shake.LEFT;
         return MainActivity.Shake.NONE;
     }
 

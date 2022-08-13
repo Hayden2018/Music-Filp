@@ -1,11 +1,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/functionalities_header">
+    <PreferenceCategory android:title="@string/auto_flip_header">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="ai_detector_preference"
-            android:title="@string/ai_detector" />
+            android:title="@string/auto_flip" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
@@ -20,7 +20,7 @@
             android:max="100"
             android:title="@string/knock_sentivity_title"
             app:showSeekBarValue="true" />
-v
+
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:dependency="ai_detector_preference"
