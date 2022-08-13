@@ -38,7 +38,6 @@ v
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/general_header">
-        <!-- TODO: add summary -->
         <ListPreference
             android:defaultValue=""
             android:entries="@array/language_entries"
