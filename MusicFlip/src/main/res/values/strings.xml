@@ -39,22 +39,24 @@
     <string name="cantonese">中文</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="about_app_content">This app helps you flip the pages of your sheet music by simply closing or winking your eyes (you can choose to use one of them in settings). You do not need to flip the pages by hand anymore!</string>
-    <string name="get_help_content"><![CDATA[<u>Eye Closing:</u><br>Flip to next page: close both of your eyes by (Duration*0.1) seconds<br><br><u>Winking:</u><br>Flip to next page: wink your right eye<br>Flip to previous page: wink your left eye]]></string>
-    <string name="share_content">This is a fantastic app that could help you flip your music sheet easily during your performance by simply closing or winking your eyes! Download and try the Music Flip App for free: https://www.google.com <!--TODO: app store link--> </string>
+    <string name="about_app_content">This app helps you flip the pages of your sheet music by simply nodding your head or winking your eyes (you can choose to use one of them in settings). You do not need to flip the pages by hand anymore!</string>
+    <string name="get_help_content"><![CDATA[<u>Nodding:</u><br>Flip to next page: Nod your head once<br><br><u>Winking:</u><br>Flip to next page: wink your right eye<br>Flip to previous page: wink your left eye]]></string>
+    <string name="share_content">This is a fantastic app that could help you flip your music sheet easily during your performance by simply nodding your head or winking your eyes! Download and try the Music Flip App for free: https://www.google.com <!--TODO: app store link--> </string>
     <string name="theme_auto">Auto</string>
     <string name="ai_detector">AI Detector</string>
     <string name="blinking_title">Blinking</string>
     <string name="blink_sensitivity_title">Sensitivity</string>
-    <string name="eye_closing_title">Eye Closing</string>
-    <string name="eye_closing_duration_title">Duration (x 0.1 seconds)</string>
     <string name="sound_effect_title">Sound Effect</string>
+    <string name="nodding_title">Nodding</string>
+    <string name="nodding_sensitivity_title">Sensitivity</string>
 
     <!--Notification-->
     <string name="notify_title">It\'s time to practice!</string>
     <string name="notify_content">Continue with your music journey with Music Flip.</string>
     <string name="notification_channel_name">Practice reminder</string>
-    <string name="knock_title">Knock</string>
-    <string name="knock_sentivity_title">Sensitivity</string>
+
+    <!--Welcome Message-->
+    <string name="welcome_title">Welcome to Music Flip!</string>
+    <string name="welcome_content"><![CDATA[This app helps you flip the pages of your sheet music by simply nodding your head or winking your eyes (you can choose to use one of them in settings). You do not need to flip the pages by hand anymore!<br><br><u>Nodding:</u><br>Flip to next page: Nod your head once<br><br><u>Winking:</u><br>Flip to next page: wink your right eye<br>Flip to previous page: wink your left eye]]></string>
 
 </resources>

@@ -11,8 +11,8 @@
     <color name="lightGrey">#AAAAAA</color>
     <color name="textGreyColor">#333333</color>
     <color name="cameraIconGrey">#555555</color>
-    <color name="bottomNavBlack">#333333</color>
-    <color name="backgroundBlack">#222222</color>
+    <color name="bottomNavBlack">#444444</color>
+    <color name="backgroundBlack">#111111</color>
     <color name="colorControlHighlight">#555555</color>
 
     <color name="cameraOnVisualHint">#1EDA66</color>

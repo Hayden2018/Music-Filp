@@ -2,6 +2,7 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -15,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutions.facemesh.FaceMesh;
@@ -91,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setupTheme();
         setContentView(R.layout.activity_main);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean is_first_time_user = pref.getBoolean("IS_FIRST_TIME_USER",true);
+        if (is_first_time_user) displayWelcomeMessage(pref);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.view_button);
@@ -321,6 +328,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     protected boolean getSoundEffectEnable() {
         return soundEffectEnable;
+    }
+
+    private void displayWelcomeMessage(SharedPreferences pref){
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("IS_FIRST_TIME_USER", false);
+        editor.apply();
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.welcome_title))
+                .setMessage(Html.fromHtml(getString(R.string.welcome_content)))
+                .setPositiveButton(R.string.confirm, null)
+                .show();
     }
 
 }

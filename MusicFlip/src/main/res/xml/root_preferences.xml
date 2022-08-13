@@ -11,14 +11,14 @@
             android:defaultValue="true"
             android:dependency="ai_detector_preference"
             android:key="knock_preference"
-            android:title="@string/knock_title" />
+            android:title="@string/nodding_title" />
 
         <SeekBarPreference
             android:defaultValue="50"
             android:dependency="knock_preference"
-            android:key="knock_sentivity_preference"
+            android:key="knock_sensitivity_preference"
             android:max="100"
-            android:title="@string/knock_sentivity_title"
+            android:title="@string/nodding_sensitivity_title"
             app:showSeekBarValue="true" />
 v
         <SwitchPreferenceCompat
