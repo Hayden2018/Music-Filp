@@ -2,10 +2,6 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.content.res.Resources;
 import android.opengl.Matrix;
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 
@@ -14,14 +10,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class SVMDetector {
 
     float[] transformMatrix = new float[16];
-    float sensitivity = 0.5f;
+    float blinkSensitivity = 0.5f;
+    float knockSensitivity = 0.2f;
 
     // Params for blink detection
     float[] Np = new float[1434];
@@ -30,14 +26,6 @@ public class SVMDetector {
     float Nbias;
     float Rbias;
     float Lbias;
-
-    // Params for close-eye detection
-    float[] Cp = new float[1434];
-    float Cbias;
-
-    int duration = 15;
-    int[] countQueue = new int[duration];
-    int top = 0;
 
     public SVMDetector(Resources r) {
 
@@ -56,32 +44,17 @@ public class SVMDetector {
                 Rp[i] = (float) Rparam.getDouble(i);
                 Lp[i] = (float) Lparam.getDouble(i);
             }
-
-            stream = r.openRawResource(R.raw.close_params);
-            jsonString = new Scanner(stream).useDelimiter("\\A").next();
-            params = new JSONObject(jsonString);
-            Cbias = (float) params.getDouble("bias");
-            JSONArray Cparam = params.getJSONArray("weight");
-            for (int i = 0; i < 1434; ++i) {
-                Cp[i] = (float) Cparam.getDouble(i);
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void setSensitivity(float s) {
-        sensitivity = s;
+    public void setBlinkSensitivity(float s) {
+        blinkSensitivity = s;
     }
 
-    public void setCloseDuration(int n) {
-        duration = n;
-        countQueue = new int[duration];
-        top = 0;
-    }
-
-    public void refresh() {
-        countQueue = new int[duration];
+    public void setKnockensitivity(float s) {
+        knockSensitivity = s;
     }
 
     private float[] transform(NormalizedLandmark lm) {
@@ -152,7 +125,7 @@ public class SVMDetector {
 
     public Enum<MainActivity.Blink> detectBlink(List<NormalizedLandmark> landmarks) {
 
-        float Nscore = -Nbias + (0.9f - sensitivity * 1.2f);
+        float Nscore = -Nbias + (0.9f - blinkSensitivity * 1.2f);
         float Rscore = -Rbias;
         float Lscore = -Lbias;
 
@@ -172,34 +145,11 @@ public class SVMDetector {
         return MainActivity.Blink.RIGHT;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public boolean detectClose(List<NormalizedLandmark> landmarks) {
-
-        float score = -Cbias;
-
-        for (int i = 0; i < 1434; i = i + 3) {
-            float[] lm = transform(landmarks.get(i / 3));
-            score += Cp[i] * lm[0] + Cp[i + 1] * lm[1] + Cp[i + 2] * lm[2];
-        }
-
-        if (score > 0f) countQueue[top] = 1;
-        else countQueue[top] = 0;
-
-        if (top + 1 == duration) top = 0;
-        else top += 1;
-
-        if (Arrays.stream(countQueue).sum() / (float) duration > 0.8f) {
-            countQueue = new int[duration];
-            return true;
-        }
-        return false;
-    }
-
     public Enum<MainActivity.Shake> detectShake(List<NormalizedLandmark> landmarks) {
 
         // Base coordinate (Back-center of the face)
-        float bx = (landmarks.get(93).getX() + landmarks.get(323).getX()) / 2;
-        float bz = (landmarks.get(93).getZ() + landmarks.get(323).getZ()) / 2;
+        float bx = (landmarks.get(93).getX() + landmarks.get(323).getX()) / 2f;
+        float bz = (landmarks.get(93).getZ() + landmarks.get(323).getZ()) / 2f;
 
         // Reference vector (Vector from base to nose)
         float rx = landmarks.get(1).getX() - bx;
@@ -213,15 +163,18 @@ public class SVMDetector {
     public Enum<MainActivity.Knock> detectKnock(List<NormalizedLandmark> landmarks) {
 
         // Base coordinate (Back-center of the face)
-        float by = (landmarks.get(93).getY() + landmarks.get(323).getY()) / 2;
-        float bz = (landmarks.get(93).getZ() + landmarks.get(323).getZ()) / 2;
+        float by = (landmarks.get(93).getY() + landmarks.get(323).getY()) / 2f;
+        float bz = (landmarks.get(93).getZ() + landmarks.get(323).getZ()) / 2f;
 
         // Reference vector (Vector from base to nose)
         float ry = landmarks.get(1).getY() - by;
         float rz = landmarks.get(1).getZ() - bz;
 
-        if (ry / rz > 0.3f) return MainActivity.Knock.UP;
-        if (ry / rz < -0.2f) return MainActivity.Knock.DOWN;
+        float threshold = 0.4f - knockSensitivity;
+
+        if (ry / rz > threshold) return MainActivity.Knock.UP;
+        if (ry / rz < -threshold) return MainActivity.Knock.DOWN;
         return MainActivity.Knock.NONE;
     }
+
 }

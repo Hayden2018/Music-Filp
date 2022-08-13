@@ -40,14 +40,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private boolean detectionEnable = true;
     private boolean blinkEnable = true;
-    private boolean eyeCloseEnable = true;
+    private boolean knockEnable = true;
     private boolean soundEffectEnable = true;
 
     private static final int DEFAULT_BLINK_SENSITIVITY = 50;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
 
-    private static final int DEFAULT_EYE_CLOSE_DURATION = 2;
-    private int eyeCloseDuration = DEFAULT_EYE_CLOSE_DURATION;
+    private static final int DEFAULT_KNOCK_SENSITIVITY = 50;
+    private float knockSensitivity = DEFAULT_BLINK_SENSITIVITY;
 
     private boolean cameraOn = false;
 
@@ -215,13 +215,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         if (blink == Blink.RIGHT) triggerRight();
                     }
 
-                    if (eyeCloseEnable) {
+                    if (knockEnable) {
                         Enum<Knock> knock = detector.detectKnock(landmarks);
                         if (knock == Knock.DOWN) triggerRight();
-//                        if (knock != Knock.NONE)  {detector.refresh(); return;}
-//                        if (detector.detectClose(landmarks)) {
-//                            triggerRight();
-//                        }
                     }
                 });
 
@@ -258,12 +254,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         detectionEnable = sharedPreferences.getBoolean("ai_detector_preference", true);
 
         blinkEnable = sharedPreferences.getBoolean("blink_preference", true);
-        blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY) / 100f;
-        detector.setSensitivity(blinkSensitivity);
+        blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY) * 0.01f;
+        detector.setBlinkSensitivity(blinkSensitivity);
 
-        eyeCloseEnable = sharedPreferences.getBoolean("eye_closing_preference", true);
-        eyeCloseDuration = sharedPreferences.getInt("eye_closing_duration_preference", DEFAULT_EYE_CLOSE_DURATION);
-        detector.setCloseDuration(eyeCloseDuration);
+        knockEnable = sharedPreferences.getBoolean("knock_preference", true);
+        knockSensitivity = sharedPreferences.getInt("knock_sensitivity_preference", DEFAULT_KNOCK_SENSITIVITY) * 0.004f;
+        detector.setKnockensitivity(knockSensitivity);
 
         soundEffectEnable = sharedPreferences.getBoolean("sound_effect_preference", true);
     }

@@ -10,18 +10,17 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="ai_detector_preference"
-            android:key="eye_closing_preference"
-            android:title="@string/eye_closing_title" />
+            android:key="knock_preference"
+            android:title="@string/knock_title" />
 
         <SeekBarPreference
-            android:defaultValue="10"
-            android:dependency="eye_closing_preference"
-            android:key="eye_closing_duration_preference"
-            android:max="25"
-            android:min="5"
-            android:title="@string/eye_closing_duration_title"
+            android:defaultValue="50"
+            android:dependency="knock_preference"
+            android:key="knock_sentivity_preference"
+            android:max="100"
+            android:title="@string/knock_sentivity_title"
             app:showSeekBarValue="true" />
-
+v
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:dependency="ai_detector_preference"

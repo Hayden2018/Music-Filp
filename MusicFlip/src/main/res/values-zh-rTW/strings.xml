@@ -52,5 +52,7 @@
     <string name="notify_title">是時候練習了！</string>
     <string name="notify_content">跟Music Flip一起繼續你的音樂之旅。</string>
     <string name="notification_channel_name">練習提示</string>
+    <string name="knock_title">點頭</string>
+    <string name="knock_sentivity_title">感應靈敏度</string>
 
 </resources>

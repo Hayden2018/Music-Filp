@@ -78,16 +78,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
 
         SwitchPreferenceCompat blinkPref = findPreference("blink_preference");
-        SwitchPreferenceCompat eyeClosePref = findPreference("eye_closing_preference");
+        SwitchPreferenceCompat knockPref = findPreference("knock_preference");
 
-        eyeClosePref.setOnPreferenceChangeListener((preference, newVal) -> {
+        knockPref.setOnPreferenceChangeListener((preference, newVal) -> {
             boolean value = (Boolean) newVal;
 
             if (value) {
-                Log.i("TAG", "true");
                 blinkPref.setChecked(false);
             } else {
-                Log.i("TAG", "false");
                 blinkPref.setChecked(true);
             }
             return true;
@@ -97,9 +95,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             boolean value = (Boolean) newVal;
 
             if (value) {
-                eyeClosePref.setChecked(false);
+                knockPref.setChecked(false);
             } else {
-                eyeClosePref.setChecked(true);
+                knockPref.setChecked(true);
             }
             return true;
         });
