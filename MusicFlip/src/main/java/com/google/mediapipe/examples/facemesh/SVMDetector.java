@@ -3,6 +3,7 @@ package com.google.mediapipe.examples.facemesh;
 import android.content.res.Resources;
 import android.opengl.Matrix;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -204,8 +205,23 @@ public class SVMDetector {
         float rx = landmarks.get(1).getX() - bx;
         float rz = landmarks.get(1).getZ() - bz;
 
-        if (rx / rz > 0.4) return MainActivity.Shake.RIGHT;
-        if (rx / rz < -0.4) return MainActivity.Shake.LEFT;
+        if (rx / rz > 0.3f) return MainActivity.Shake.RIGHT;
+        if (rx / rz < -0.3f) return MainActivity.Shake.LEFT;
         return MainActivity.Shake.NONE;
+    }
+
+    public Enum<MainActivity.Knock> detectKnock(List<NormalizedLandmark> landmarks) {
+
+        // Base coordinate (Back-center of the face)
+        float by = (landmarks.get(93).getY() + landmarks.get(323).getY()) / 2;
+        float bz = (landmarks.get(93).getZ() + landmarks.get(323).getZ()) / 2;
+
+        // Reference vector (Vector from base to nose)
+        float ry = landmarks.get(1).getY() - by;
+        float rz = landmarks.get(1).getZ() - bz;
+
+        if (ry / rz > 0.3f) return MainActivity.Knock.UP;
+        if (ry / rz < -0.2f) return MainActivity.Knock.DOWN;
+        return MainActivity.Knock.NONE;
     }
 }

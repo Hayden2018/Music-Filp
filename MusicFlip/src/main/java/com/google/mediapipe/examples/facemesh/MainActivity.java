@@ -65,6 +65,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         RIGHT
     }
 
+    public enum Knock {
+        UP,
+        NONE,
+        DOWN
+    }
+
     private enum Current {
         COLLECTION,
         VIEW,
@@ -194,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     if (!detectionEnable || faceMeshResult.multiFaceLandmarks().isEmpty()) {
                         return;
                     }
-                    if (System.currentTimeMillis() - coolDown < 1000) {
+                    if (System.currentTimeMillis() - coolDown < 1200) {
                         return;
                     }
                     List<NormalizedLandmark> landmarks = faceMeshResult.multiFaceLandmarks().get(0).getLandmarkList();
@@ -210,8 +216,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     }
 
                     if (eyeCloseEnable) {
-                        boolean eyeClose = detector.detectClose(landmarks);
-                        if (eyeClose) triggerRight();
+                        Enum<Knock> knock = detector.detectKnock(landmarks);
+                        if (knock == Knock.DOWN) triggerRight();
+//                        if (knock != Knock.NONE)  {detector.refresh(); return;}
+//                        if (detector.detectClose(landmarks)) {
+//                            triggerRight();
+//                        }
                     }
                 });
 

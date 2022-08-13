@@ -17,7 +17,7 @@
             android:defaultValue="10"
             android:dependency="eye_closing_preference"
             android:key="eye_closing_duration_preference"
-            android:max="20"
+            android:max="25"
             android:min="5"
             android:title="@string/eye_closing_duration_title"
             app:showSeekBarValue="true" />
