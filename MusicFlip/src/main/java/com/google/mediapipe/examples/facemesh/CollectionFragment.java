@@ -49,10 +49,6 @@ public class CollectionFragment extends Fragment {
 
     private MainActivity activity;
 
-    public static CollectionFragment newInstance() {
-        return new CollectionFragment();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

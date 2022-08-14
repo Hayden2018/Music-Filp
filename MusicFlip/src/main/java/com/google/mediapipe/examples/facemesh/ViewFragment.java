@@ -78,7 +78,7 @@ public class ViewFragment extends Fragment {
         else if (activity.detectionEnable) {
             detectorText.setTextColor(Color.parseColor("#0A9A0A"));
             if (activity.blinkEnable) detectorText.setText(R.string.blink_flip_on);
-            if (activity.knockEnable) detectorText.setText(R.string.nod_flip_on);
+            if (activity.nodEnable) detectorText.setText(R.string.nod_flip_on);
         }
         else {
             detectorText.setTextColor(Color.parseColor("#C01010"));

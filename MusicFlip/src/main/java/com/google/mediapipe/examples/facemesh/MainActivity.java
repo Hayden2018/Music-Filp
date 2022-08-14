@@ -2,9 +2,11 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import android.os.FileUtils;
+import android.provider.OpenableColumns;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,10 +30,16 @@ import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutions.facemesh.FaceMesh;
 import com.google.mediapipe.solutions.facemesh.FaceMeshOptions;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static android.content.Intent.ACTION_VIEW;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -39,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public boolean detectionEnable = true;
     public boolean blinkEnable = false;
-    public boolean knockEnable = true;
+    public boolean nodEnable = true;
     public boolean soundEffectEnable = true;
 
     private static final int DEFAULT_BLINK_SENSITIVITY = 50;
@@ -77,14 +87,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     Enum<Current> current = Current.VIEW;
 
     public ViewFragment viewFragment = new ViewFragment();
-    public CollectionFragment collectionFragment = CollectionFragment.newInstance();
+    public CollectionFragment collectionFragment = new CollectionFragment();
     public SettingsFragment settingFragment = new SettingsFragment();
 
     private BottomNavigationView bottomNavigationView;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setupTheme();
         setContentView(R.layout.activity_main);
@@ -97,13 +108,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setSelectedItemId(R.id.view_button);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-//        viewFragment = (ViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-
         detector = new SVMDetector(getResources());
         loadSettings();
         setupNotification();
-
         setupDetectionPipeline();
+
+        Intent intent = getIntent();
+        if (intent.getAction() == ACTION_VIEW) {
+            Uri uri = intent.getData();
+            try {
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                cursor.moveToFirst();
+                String name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                FileOutputStream destination = openFileOutput(name, Context.MODE_PRIVATE);
+                FileInputStream source = (FileInputStream) getContentResolver().openInputStream(uri);
+                FileUtils.copy(source, destination);
+                openAndView(Uri.fromFile(new File(getFilesDir(), name)));
+            } catch (IOException e) {
+                Log.e("File Save", e.getMessage());
+            }
+        }
     }
 
     @Override
@@ -216,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         if (blink == Blink.RIGHT) triggerRight();
                     }
 
-                    if (knockEnable) {
+                    if (nodEnable) {
                         Enum<Nod> knock = detector.detectNod(landmarks);
                         if (knock == Nod.DOWN) triggerRight();
                     }
@@ -252,11 +276,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         detectionEnable = sharedPreferences.getBoolean("ai_detector_preference", true);
 
-        blinkEnable = sharedPreferences.getBoolean("blink_preference", true);
+        blinkEnable = sharedPreferences.getBoolean("blink_preference", false);
         blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY) * 0.05f;
         detector.setBlinkSensitivity(blinkSensitivity);
 
-        knockEnable = sharedPreferences.getBoolean("nod_preference", true);
+        nodEnable = sharedPreferences.getBoolean("nod_preference", true);
         nodSensitivity = sharedPreferences.getInt("nod_sensitivity_preference", DEFAULT_NOD_SENSITIVITY) * 0.02f;
         detector.setNodSensitivity(nodSensitivity);
 
