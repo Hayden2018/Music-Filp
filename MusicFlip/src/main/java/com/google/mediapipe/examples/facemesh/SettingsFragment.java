@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -38,6 +39,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+        Preference contactPref = findPreference("contact_us_preference");
+        if (contactPref != null && getContext() != null) {
+            contactPref.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:yikhei123@gmail.com"));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Music Flip Issues");
+                startActivity(intent);
+                return true;
+            });
+        }
 
         Preference aboutAppPref = findPreference("about_app_preference");
         if (aboutAppPref != null && getContext() != null) {

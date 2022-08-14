@@ -3,7 +3,7 @@
     <string name="collection_button">文件</string>
     <string name="view_button">檢視</string>
     <string name="setting_button">設定</string>
-    <string name="empty_info">按文件按鈕來加入或打開文件</string>
+    <string name="empty_info">按文件按鈕來打開文件</string>
     <string name="cancel">取消</string>
     <string name="Remove">移除</string>
     <string name="confirm_delete">確定移除以下文件?</string>
@@ -32,8 +32,8 @@
     <string name="cantonese">中文</string>
     <string name="theme_light">白天模式</string>
     <string name="theme_dark">夜晚模式</string>
-    <string name="about_app_content">本應用程式幫助你在演奏期間輕鬆將樂譜翻頁﹐你只需要做出點頭動作或單眼動作(可在設定中選擇其中一項)就可以免去手動翻樂譜的麻煩﹐讓本應用程式自動為你翻去上(下)一頁！</string>
-    <string name="get_help_content"><![CDATA[<u>點頭：</u><br>下一頁：點頭一次<br><br><u>眨眼：</u><br>下一頁：眨右眼<br>上一頁：眨左眼]]></string>
+    <string name="about_app_content">本應用程式幫助你在演奏期間輕鬆將樂譜翻頁﹐你只需要做出點頭動作或單眼動作(可在設定中選擇其中一項)就可以免去手動翻樂譜的麻煩﹐讓本應用程式自動為你翻去下(上)一頁！</string>
+    <string name="get_help_content"><![CDATA[<strong>點頭：</strong><br>下一頁：點頭一次<br><br><strong>眨眼：</strong><br>下一頁：眨右眼<br>上一頁：眨左眼]]></string>
     <string name="share_content">一起來用這個可以幫助你在演奏中僅用點頭或眨眼就可以輕鬆翻頁的應用程式吧！你可以在以下網址中下載 Music Flip：https://www.google.com <!--TODO: app store link--> </string>
     <string name="theme_auto">自動</string>
     <string name="auto_flip">啟用自動翻頁</string>
@@ -51,9 +51,10 @@
 
     <!--Welcome Message-->
     <string name="welcome_title">歡迎來到 Music Flip!</string>
-    <string name="welcome_content"><![CDATA[本應用程式幫助你在演奏期間輕鬆將樂譜翻頁﹐你只需要做出點頭動作或單眼動作(可在設定中選擇其中一項)就可以免去手動翻樂譜的麻煩﹐讓本應用程式自動為你翻去上(下)一頁！<br><br><u>點頭：</u><br>下一頁：點頭一次<br><br><u>眨眼：</u><br>下一頁：眨右眼<br>上一頁：眨左眼]]></string>
+    <string name="welcome_content"><![CDATA[本應用程式幫助你在演奏期間輕鬆將樂譜翻頁﹐你只需要做出點頭或者眨眼動作(可在設定中選擇其中一項)就可以免去手動翻樂譜的麻煩﹐讓本應用程式自動為你翻去下(上)一頁！<br><br><strong>點頭：</strong><br>下一頁：點頭一次<br><br><strong>眨眼：</strong><br>下一頁：眨右眼<br>上一頁：眨左眼]]></string>
     <string name="blink_flip_on">眨眼翻頁啟用中</string>
     <string name="nod_flip_on">點頭翻頁啟用中</string>
     <string name="auto_flip_off">自動翻頁己停用</string>
+    <string name="contact_us_title">聯絡我們</string>
 
 </resources>

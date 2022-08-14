@@ -70,6 +70,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/app_header">
+
+        <Preference
+            android:key="contact_us_preference"
+            android:title="@string/contact_us_title"
+            app:icon="@drawable/ic_mail" />
+
         <Preference
             android:key="get_help_preference"
             android:title="@string/get_help_title"
@@ -84,6 +90,8 @@
             android:key="about_app_preference"
             android:title="@string/about_app_title"
             app:icon="@drawable/ic_about_app" />
+
+
     </PreferenceCategory>
 
 </PreferenceScreen>
