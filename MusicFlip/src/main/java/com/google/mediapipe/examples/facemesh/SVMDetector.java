@@ -17,7 +17,7 @@ public class SVMDetector {
 
     float[] transformMatrix = new float[16];
     float blinkSensitivity = 0.5f;
-    float knockSensitivity = 0.2f;
+    float nodSensitivity = 0.2f;
 
     // Params for blink detection
     float[] Np = new float[1434];
@@ -53,8 +53,8 @@ public class SVMDetector {
         blinkSensitivity = s;
     }
 
-    public void setKnockensitivity(float s) {
-        knockSensitivity = s;
+    public void setNodSensitivity(float s) {
+        nodSensitivity = s;
     }
 
     private float[] transform(NormalizedLandmark lm) {
@@ -160,7 +160,7 @@ public class SVMDetector {
         return MainActivity.Shake.NONE;
     }
 
-    public Enum<MainActivity.Knock> detectKnock(List<NormalizedLandmark> landmarks) {
+    public Enum<MainActivity.Nod> detectNod(List<NormalizedLandmark> landmarks) {
 
         // Base coordinate (Back-center of the face)
         float by = (landmarks.get(93).getY() + landmarks.get(323).getY()) / 2f;
@@ -170,11 +170,11 @@ public class SVMDetector {
         float ry = landmarks.get(1).getY() - by;
         float rz = landmarks.get(1).getZ() - bz;
 
-        float threshold = 0.4f - knockSensitivity;
+        float threshold = 0.4f - nodSensitivity;
 
-        if (ry / rz > threshold) return MainActivity.Knock.UP;
-        if (ry / rz < -threshold) return MainActivity.Knock.DOWN;
-        return MainActivity.Knock.NONE;
+        if (ry / rz > threshold) return MainActivity.Nod.UP;
+        if (ry / rz < -threshold) return MainActivity.Nod.DOWN;
+        return MainActivity.Nod.NONE;
     }
 
 }

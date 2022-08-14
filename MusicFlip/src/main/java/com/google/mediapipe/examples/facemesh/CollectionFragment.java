@@ -94,7 +94,7 @@ public class CollectionFragment extends Fragment {
         String[] files = activity.fileList();
         files = Arrays.stream(files).filter(f -> Files.getFileExtension(f).equals("pdf")).toArray(String[]::new);
 
-        FlexboxLayout flexboxLayout = (FlexboxLayout) getView().findViewById(R.id.collection);
+        FlexboxLayout flexboxLayout = getView().findViewById(R.id.collection);
         flexboxLayout.removeAllViews();
 
         Resources resource = activity.getResources();
@@ -201,7 +201,6 @@ public class CollectionFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void saveFile(Uri uri) {
         try {
-            Log.e("File Save", "Started");
             String fileName = getFileName(uri);
             FileOutputStream destination = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
             FileInputStream source = (FileInputStream) activity.getContentResolver().openInputStream(uri);

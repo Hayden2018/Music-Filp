@@ -1,6 +1,5 @@
 package com.google.mediapipe.examples.facemesh;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -17,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +37,6 @@ public class ViewFragment extends Fragment {
     private Animation toRight;
     private Animation toLeft;
 
-    protected ParcelFileDescriptor file;
     protected PdfRenderer renderer;
     protected PdfRenderer.Page currentPage;
     protected int p = 0;
@@ -79,13 +76,13 @@ public class ViewFragment extends Fragment {
             detectorText.setVisibility(View.GONE);
         }
         else if (activity.detectionEnable) {
-            detectorText.setTextColor(Color.parseColor("#0A880A"));
-            if (activity.blinkEnable) detectorText.setText("Blink Detection On");
-            if (activity.knockEnable) detectorText.setText("Knock Detection On");
+            detectorText.setTextColor(Color.parseColor("#0A9A0A"));
+            if (activity.blinkEnable) detectorText.setText(R.string.blink_flip_on);
+            if (activity.knockEnable) detectorText.setText(R.string.nod_flip_on);
         }
         else {
-            detectorText.setTextColor(Color.parseColor("#3F3F3F"));
-            detectorText.setText("Auto Flip Disabled");
+            detectorText.setTextColor(Color.parseColor("#C01010"));
+            detectorText.setText(R.string.auto_flip_off);
             new android.os.Handler().postDelayed(() -> {
                 detectorText.setVisibility(View.GONE);
                 TextView pageNum = root.findViewById(R.id.page_num);
@@ -98,7 +95,7 @@ public class ViewFragment extends Fragment {
                 constraintSet.clone(topSection);
                 constraintSet.connect(pageNum.getId(), ConstraintSet.END, topSection.getId(), ConstraintSet.END, 0);
                 constraintSet.applyTo(topSection);
-            }, 3500);
+            }, 3000);
         }
 
         fromRight = AnimationUtils.loadAnimation(getActivity(), R.anim.from_right);
@@ -145,7 +142,7 @@ public class ViewFragment extends Fragment {
 
     private void renderPDF() {
         try {
-            file = getActivity().getContentResolver().openFileDescriptor(current, "r");
+            ParcelFileDescriptor file = getActivity().getContentResolver().openFileDescriptor(current, "r");
             renderer = new PdfRenderer(file);
             currentPage = renderer.openPage(p);
             Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
@@ -170,7 +167,7 @@ public class ViewFragment extends Fragment {
             Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
             page.eraseColor(Color.WHITE);
             currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-            if (activity.getSoundEffectEnable()) flipSound.start();
+            if (activity.soundEffectEnable) flipSound.start();
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromRight);
@@ -190,7 +187,7 @@ public class ViewFragment extends Fragment {
             Bitmap page = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
             page.eraseColor(Color.WHITE);
             currentPage.render(page, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-            if (activity.getSoundEffectEnable()) flipSound.start();
+            if (activity.soundEffectEnable) flipSound.start();
             getActivity().runOnUiThread(() -> {
                 ImageSwitcher v = getView().findViewById(R.id.docu_view);
                 v.setInAnimation(fromLeft);

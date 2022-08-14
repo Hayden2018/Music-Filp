@@ -78,9 +78,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
 
         SwitchPreferenceCompat blinkPref = findPreference("blink_preference");
-        SwitchPreferenceCompat knockPref = findPreference("knock_preference");
+        SwitchPreferenceCompat nodPref = findPreference("nod_preference");
 
-        knockPref.setOnPreferenceChangeListener((preference, newVal) -> {
+        nodPref.setOnPreferenceChangeListener((preference, newVal) -> {
             boolean value = (Boolean) newVal;
 
             if (value) {
@@ -95,9 +95,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             boolean value = (Boolean) newVal;
 
             if (value) {
-                knockPref.setChecked(false);
+                nodPref.setChecked(false);
             } else {
-                knockPref.setChecked(true);
+                nodPref.setChecked(true);
             }
             return true;
         });

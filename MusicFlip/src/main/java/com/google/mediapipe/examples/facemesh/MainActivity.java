@@ -2,7 +2,6 @@ package com.google.mediapipe.examples.facemesh;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -32,9 +31,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Main activity of MediaPipe Face Mesh app.
- */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private FaceMesh facemesh;
@@ -49,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private static final int DEFAULT_BLINK_SENSITIVITY = 50;
     private float blinkSensitivity = DEFAULT_BLINK_SENSITIVITY;
 
-    private static final int DEFAULT_KNOCK_SENSITIVITY = 50;
-    private float knockSensitivity = DEFAULT_BLINK_SENSITIVITY;
+    private static final int DEFAULT_NOD_SENSITIVITY = 50;
+    private float nodSensitivity = DEFAULT_NOD_SENSITIVITY;
 
     private long coolDown = System.currentTimeMillis();
 
@@ -66,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         RIGHT
     }
 
-    public enum Knock {
+    public enum Nod {
         UP,
         NONE,
         DOWN
@@ -221,8 +217,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     }
 
                     if (knockEnable) {
-                        Enum<Knock> knock = detector.detectKnock(landmarks);
-                        if (knock == Knock.DOWN) triggerRight();
+                        Enum<Nod> knock = detector.detectNod(landmarks);
+                        if (knock == Nod.DOWN) triggerRight();
                     }
                 });
 
@@ -257,12 +253,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         detectionEnable = sharedPreferences.getBoolean("ai_detector_preference", true);
 
         blinkEnable = sharedPreferences.getBoolean("blink_preference", true);
-        blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY) * 0.01f;
+        blinkSensitivity = sharedPreferences.getInt("blink_sensitivity_preference", DEFAULT_BLINK_SENSITIVITY) * 0.05f;
         detector.setBlinkSensitivity(blinkSensitivity);
 
-        knockEnable = sharedPreferences.getBoolean("knock_preference", true);
-        knockSensitivity = sharedPreferences.getInt("knock_sensitivity_preference", DEFAULT_KNOCK_SENSITIVITY) * 0.004f;
-        detector.setKnockensitivity(knockSensitivity);
+        knockEnable = sharedPreferences.getBoolean("nod_preference", true);
+        nodSensitivity = sharedPreferences.getInt("nod_sensitivity_preference", DEFAULT_NOD_SENSITIVITY) * 0.02f;
+        detector.setNodSensitivity(nodSensitivity);
 
         soundEffectEnable = sharedPreferences.getBoolean("sound_effect_preference", true);
     }
@@ -316,10 +312,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
-    }
-
-    protected boolean getSoundEffectEnable() {
-        return soundEffectEnable;
     }
 
     private void displayWelcomeMessage(SharedPreferences pref){

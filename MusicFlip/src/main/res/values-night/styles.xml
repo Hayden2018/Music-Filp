@@ -43,11 +43,6 @@
         <item name="materialAlertDialogTheme">@style/MaterialDialogAlert</item>
     </style>
 
-    <style name="AppBottomNavigation" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="itemBackground">@color/bottomNavBlack</item>
-        <item name="background">@color/bottomNavBlack</item>
-    </style>
-
     <style name="AppButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/darkColorAccent</item>
     </style>

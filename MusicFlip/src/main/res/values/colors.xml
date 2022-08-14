@@ -14,6 +14,6 @@
     <color name="bottomNavBlack">#444444</color>
     <color name="backgroundBlack">#111111</color>
     <color name="colorControlHighlight">#555555</color>
+    <color name="transparent">#00000000</color>
 
-    <color name="detectionEnable">#1EDA66</color>
 </resources>

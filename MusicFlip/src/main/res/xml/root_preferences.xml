@@ -10,14 +10,14 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="ai_detector_preference"
-            android:key="knock_preference"
+            android:key="nod_preference"
             android:title="@string/nodding_title" />
 
         <SeekBarPreference
-            android:defaultValue="50"
-            android:dependency="knock_preference"
-            android:key="knock_sensitivity_preference"
-            android:max="100"
+            android:defaultValue="10"
+            android:dependency="nod_preference"
+            android:key="nod_sensitivity_preference"
+            android:max="20"
             android:title="@string/nodding_sensitivity_title"
             app:showSeekBarValue="true" />
 
@@ -28,10 +28,10 @@
             android:title="@string/blinking_title" />
 
         <SeekBarPreference
-            android:defaultValue="50"
+            android:defaultValue="10"
             android:dependency="blink_preference"
             android:key="blink_sensitivity_preference"
-            android:max="100"
+            android:max="20"
             android:title="@string/blink_sensitivity_title"
             app:showSeekBarValue="true" />
 
@@ -52,7 +52,7 @@
             android:entryValues="@array/theme_values"
             android:key="theme_preference"
             android:title="@string/theme_title"
-            app:defaultValue=""
+            app:defaultValue="auto"
             app:icon="@drawable/ic_theme"
             app:useSimpleSummaryProvider="true" />
 
