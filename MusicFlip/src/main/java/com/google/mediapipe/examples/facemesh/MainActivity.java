@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
@@ -40,6 +41,9 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Intent.ACTION_VIEW;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -95,9 +99,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
         setupTheme();
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -310,11 +314,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         String theme = sharedPreferences.getString("theme_preference", "");
 
         if (theme.equals("dark")) {
-            setTheme(R.style.DarkTheme);
+//            setTheme(R.style.DarkTheme);
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
         } else if (theme.equals("light")) {
-            setTheme(R.style.LightTheme);
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+//            setTheme(R.style.LightTheme);
         } else {
-            setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
+//            setTheme(R.style.AppTheme);
         }
     }
 
