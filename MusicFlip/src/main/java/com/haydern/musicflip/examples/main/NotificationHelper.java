@@ -1,4 +1,4 @@
-package com.google.mediapipe.examples.facemesh;
+package com.haydern.musicflip.examples.main;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
+
+import com.google.mediapipe.examples.facemesh.R;
 
 class NotificationHelper {
 

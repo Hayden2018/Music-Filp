@@ -1,4 +1,4 @@
-package com.google.mediapipe.examples.facemesh;
+package com.haydern.musicflip.examples.main;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.io.Files;
+import com.google.mediapipe.examples.facemesh.R;
 
 import java.io.File;
 import java.io.FileInputStream;

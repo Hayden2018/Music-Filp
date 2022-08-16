@@ -1,4 +1,4 @@
-package com.google.mediapipe.examples.facemesh;
+package com.haydern.musicflip.examples.main;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,6 +25,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.mediapipe.examples.facemesh.R;
 
 import java.io.IOException;
 

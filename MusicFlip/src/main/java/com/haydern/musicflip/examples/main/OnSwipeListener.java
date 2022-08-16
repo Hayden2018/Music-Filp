@@ -1,4 +1,4 @@
-package com.google.mediapipe.examples.facemesh;
+package com.haydern.musicflip.examples.main;
 
 import android.content.Context;
 import android.view.GestureDetector;

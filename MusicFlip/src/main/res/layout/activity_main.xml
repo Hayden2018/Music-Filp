@@ -9,7 +9,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment"
-        android:name="com.google.mediapipe.examples.facemesh.ViewFragment"
+        android:name="com.haydern.musicflip.examples.main.ViewFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" />

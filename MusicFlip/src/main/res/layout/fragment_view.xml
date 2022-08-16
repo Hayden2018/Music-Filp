@@ -7,7 +7,7 @@
     android:gravity="center"
     android:keepScreenOn="true"
     android:orientation="vertical"
-    tools:context=".ViewFragment">
+    tools:context="com.haydern.musicflip.examples.main.ViewFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,3 +5,4 @@
 /BUILD
 .idea/
 local.properties
+*.aab
