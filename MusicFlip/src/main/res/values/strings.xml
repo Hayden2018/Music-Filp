@@ -37,7 +37,6 @@
     <string name="theme_dark">Dark</string>
     <string name="about_app_content">This app helps you flip the pages of your sheet music by simply nodding your head or winking your eyes (you can choose one of them in settings). You do not need to flip the pages by hand anymore!</string>
     <string name="get_help_content"><![CDATA[<strong>Nodding:</strong><br>Next page: Nod your head once<br><br><strong>Winking:</strong><br>Next page: Wink your right eye<br>Previous page: Wink your left eye]]></string>
-    <string name="share_content">This is a fantastic app that could help you flip your music sheet easily during your performance by simply nodding your head or winking your eyes! Download and try the Music Flip App for free: https://www.google.com <!--TODO: app store link--> </string>
     <string name="theme_auto">Auto</string>
     <string name="auto_flip">Enable Auto Flip</string>
     <string name="blinking_title">Wink to Flip</string>
@@ -58,5 +57,6 @@
     <string name="nod_flip_on">Nod to Flip On</string>
     <string name="auto_flip_off">Auto Flip Off</string>
     <string name="contact_us_title">Contact Us</string>
+    <string name="share_content">Music Flip helps you flip your sheet music by simply nodding your head or winking your eyes. Download Music Flip for Free: https://play.google.com/store/apps/details?id=com.haydern.musicflip.examples.main</string>
 
 </resources>

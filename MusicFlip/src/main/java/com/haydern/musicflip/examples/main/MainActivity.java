@@ -45,6 +45,7 @@ import static android.content.Intent.ACTION_VIEW;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+import static java.lang.Math.abs;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -107,7 +108,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean is_first_time_user = pref.getBoolean("IS_FIRST_TIME_USER",true);
-        if (is_first_time_user) displayWelcomeMessage(pref);
+        if (is_first_time_user) {
+            displayWelcomeMessage(pref);
+            setupNotification();
+        }
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.view_button);
@@ -115,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         detector = new SVMDetector(getResources());
         loadSettings();
-        setupNotification();
         setupDetectionPipeline();
 
         Intent intent = getIntent();
@@ -124,7 +127,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             try {
                 Cursor cursor = getContentResolver().query(uri, null, null, null, null);
                 cursor.moveToFirst();
-                String name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                String name = cursor.getString(abs(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)));
+                cursor.close();
                 FileOutputStream destination = openFileOutput(name, Context.MODE_PRIVATE);
                 FileInputStream source = (FileInputStream) getContentResolver().openInputStream(uri);
                 FileUtils.copy(source, destination);
@@ -213,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setSelectedItemId(R.id.view_button);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setupDetectionPipeline() {
 
         facemesh = new FaceMesh(
@@ -292,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         soundEffectEnable = sharedPreferences.getBoolean("sound_effect_preference", true);
     }
 
+    @SuppressWarnings("deprecation")
     public void setLocale() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String lang = sharedPreferences.getString("language_preference", "");
@@ -315,14 +319,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         String theme = sharedPreferences.getString("theme_preference", "");
 
         if (theme.equals("dark")) {
-//            setTheme(R.style.DarkTheme);
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
         } else if (theme.equals("light")) {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-//            setTheme(R.style.LightTheme);
         } else {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
-//            setTheme(R.style.AppTheme);
         }
     }
 
@@ -337,15 +338,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             calendar.add(Calendar.DAY_OF_MONTH, 1);
 
         Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         if (alarmManager != null) {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
-
     }
 
+    @SuppressWarnings("deprecation")
     private void displayWelcomeMessage(SharedPreferences pref){
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("IS_FIRST_TIME_USER", false);
