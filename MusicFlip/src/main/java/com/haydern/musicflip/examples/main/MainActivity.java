@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private long coolDown = System.currentTimeMillis();
 
+    private boolean notificationEnable = true;
+
     public enum Shake {
         LEFT,
         NONE,
@@ -293,6 +295,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         detector.setNodSensitivity(nodSensitivity);
 
         soundEffectEnable = sharedPreferences.getBoolean("sound_effect_preference", true);
+
+        boolean incomingSetting = sharedPreferences.getBoolean("notification_preference", true);
+        if (incomingSetting == true && notificationEnable == false) {
+            setupNotification();
+            notificationEnable = true;
+        }
+        if (incomingSetting == false && notificationEnable == true) {
+            cancelNotification();
+            notificationEnable = false;
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -343,6 +355,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         if (alarmManager != null) {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+    }
+
+    public void cancelNotification() {
+
+        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
         }
     }
 

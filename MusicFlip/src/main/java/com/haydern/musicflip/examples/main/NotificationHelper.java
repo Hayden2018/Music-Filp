@@ -31,7 +31,6 @@ class NotificationHelper {
                 0 /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         mBuilder.setContentTitle(mContext.getString(R.string.notify_title))
@@ -48,7 +47,6 @@ class NotificationHelper {
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.WHITE);
             notificationChannel.enableVibration(false);
-//            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             assert mNotificationManager != null;
             mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             mNotificationManager.createNotificationChannel(notificationChannel);

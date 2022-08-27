@@ -18,13 +18,11 @@ public class NotificationReceiver extends BroadcastReceiver {
         NotificationHelper notificationHelper = new NotificationHelper(context);
         setLocale(context);
         notificationHelper.createNotification();
-
     }
 
     private void setLocale(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String lang = sharedPreferences.getString("language_preference", "");
-        Log.i("TAG", "setContentView: " + lang);
 
         Locale myLocale;
         if (lang.equals("zh-rTW")) {
