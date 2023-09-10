@@ -6,8 +6,8 @@ An experimental Android application that allows hands-free music sheet navigatio
 
 - Leverages Google's MediaPipe library for robust head gesture detection.
 - Currently supports the following gestures for fliping PDF music sheet:
-  - Winking: Flip to the next music sheet.
-  - Nodding: Flip to the previous music sheet.
+  - Winking: Flip to the next or previous page.
+  - Nodding: Flip to the next page.
 
 ## Download
 
