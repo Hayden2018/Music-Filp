@@ -5,6 +5,7 @@ plugins {
 android {
     compileSdkVersion 34
     buildToolsVersion "34.0.0"
+    namespace 'com.haydern.musicflip.examples.main'
 
     defaultConfig {
         applicationId "com.haydern.musicflip.examples.main"
