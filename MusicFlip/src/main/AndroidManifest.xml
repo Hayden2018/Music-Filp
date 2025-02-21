@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.mediapipe.examples.facemesh" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- For loading images from gallery -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- For using the camera -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -15,7 +14,7 @@
         android:label="Music Flip"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <activity android:name="com.haydern.musicflip.examples.main.SplashScreenActivity"
             android:theme="@style/SplashTheme"
@@ -44,7 +43,8 @@
 
         </activity>
         <receiver
-            android:name="com.haydern.musicflip.examples.main.NotificationReceiver"/>
+            android:name="com.haydern.musicflip.examples.main.NotificationReceiver"
+            android:exported="false"/>
     </application>
 
 </manifest>

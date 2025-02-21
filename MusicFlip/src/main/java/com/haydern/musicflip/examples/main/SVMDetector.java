@@ -3,7 +3,7 @@ package com.haydern.musicflip.examples.main;
 import android.content.res.Resources;
 import android.opengl.Matrix;
 
-import com.google.mediapipe.examples.facemesh.R;
+import com.haydern.musicflip.examples.main.R;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 
 import org.json.JSONArray;

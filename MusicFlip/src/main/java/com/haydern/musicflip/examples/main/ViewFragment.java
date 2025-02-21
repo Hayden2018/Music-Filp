@@ -26,7 +26,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.mediapipe.examples.facemesh.R;
+import com.haydern.musicflip.examples.main.R;
 
 import java.io.IOException;
 

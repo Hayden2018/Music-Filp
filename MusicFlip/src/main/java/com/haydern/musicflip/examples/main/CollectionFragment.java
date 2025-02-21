@@ -34,7 +34,7 @@ import android.widget.TextView;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.io.Files;
-import com.google.mediapipe.examples.facemesh.R;
+import com.haydern.musicflip.examples.main.R;
 
 import java.io.File;
 import java.io.FileInputStream;

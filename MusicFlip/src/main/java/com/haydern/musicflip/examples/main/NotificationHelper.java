@@ -10,7 +10,7 @@ import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.mediapipe.examples.facemesh.R;
+import com.haydern.musicflip.examples.main.R;
 
 class NotificationHelper {
 
