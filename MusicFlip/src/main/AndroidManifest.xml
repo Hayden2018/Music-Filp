@@ -29,7 +29,6 @@
 
         <activity
             android:name="com.haydern.musicflip.examples.main.MainActivity"
-            android:screenOrientation="portrait"
             android:exported="true">
 
             <intent-filter>
